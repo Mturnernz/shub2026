@@ -1,0 +1,126 @@
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: var(--radius);
+  border: 1.5px solid transparent;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 12px 20px;
+  transition: opacity var(--transition), transform var(--transition), box-shadow var(--transition);
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  text-align: center;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn:not(:disabled):active {
+  transform: scale(0.97);
+}
+
+/* ── Variants ─────────────────────────────── */
+
+.primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(168, 51, 76, 0.3);
+}
+.primary:not(:disabled):hover {
+  box-shadow: 0 4px 16px rgba(168, 51, 76, 0.4);
+  opacity: 0.93;
+}
+
+.gold {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(200, 150, 10, 0.3);
+}
+.gold:not(:disabled):hover {
+  box-shadow: 0 4px 16px rgba(200, 150, 10, 0.4);
+  opacity: 0.93;
+}
+
+.teal {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(42, 128, 128, 0.3);
+}
+.teal:not(:disabled):hover {
+  box-shadow: 0 4px 16px rgba(42, 128, 128, 0.4);
+  opacity: 0.93;
+}
+
+.ghost {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--ink);
+}
+.ghost:not(:disabled):hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.ink {
+  background: var(--ink);
+  color: #fff;
+}
+.ink:not(:disabled):hover {
+  opacity: 0.85;
+}
+
+.soft {
+  background: var(--primary-light);
+  color: var(--primary);
+  border-color: transparent;
+}
+.soft:not(:disabled):hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+.sage {
+  background: var(--sage-light);
+  color: var(--sage-dark);
+  border-color: transparent;
+}
+.sage:not(:disabled):hover {
+  background: var(--sage);
+  color: #fff;
+}
+
+/* ── Modifiers ───────────────────────────── */
+
+.full {
+  width: 100%;
+}
+
+.sm {
+  font-size: 0.8125rem;
+  padding: 8px 14px;
+}
+
+/* ── Spinner ─────────────────────────────── */
+
+.spinner {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

@@ -1,0 +1,17 @@
+.bar {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+}
+
+.segment {
+  flex: 1;
+  height: 3px;
+  border-radius: 99px;
+  background: var(--border);
+  transition: background var(--transition-med);
+}
+
+.filled {
+  background: var(--primary);
+}

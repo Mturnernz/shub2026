@@ -1,0 +1,121 @@
+/* ============================================================
+   SHUB NZ — Design Tokens
+   All custom properties centralised here.
+   ============================================================ */
+
+:root {
+  /* Background & Surface */
+  --bg:              #FAF6F2;
+  --card:            #FFFFFF;
+  --border:          #EAD8CC;
+  --surface:         #F5EDE6;
+  --surface-deep:    #EDD8CC;
+
+  /* Ink */
+  --ink:             #1C1410;
+  --ink-soft:        #3D2820;
+  --muted:           #8C7060;
+  --muted-light:     #C4AFA4;
+
+  /* Primary — Rose */
+  --primary:         #A8334C;
+  --primary-light:   #F5D8DF;
+  --primary-dark:    #7A1F34;
+
+  /* Gold */
+  --gold:            #C8960A;
+  --gold-light:      #F7EAC0;
+  --gold-dark:       #8C6800;
+
+  /* Sage */
+  --sage:            #5A8070;
+  --sage-light:      #D8EDE6;
+  --sage-dark:       #3A5548;
+
+  /* Teal */
+  --teal:            #2A8080;
+  --teal-light:      #D0EEEE;
+  --teal-dark:       #1A5858;
+
+  /* Lavender */
+  --lavender:        #E8E0F5;
+  --lavender-dark:   #6B5B9A;
+
+  /* Typography */
+  --font-display:    'Cormorant Garamond', Georgia, serif;
+  --font-body:       'DM Sans', system-ui, sans-serif;
+
+  /* Spacing */
+  --radius-sm:       4px;
+  --radius:          8px;
+  --radius-md:       12px;
+  --radius-lg:       16px;
+  --radius-xl:       20px;
+  --radius-pill:     99px;
+
+  /* Shadows */
+  --shadow-card:     0 2px 12px rgba(28, 20, 16, 0.05);
+  --shadow-sheet:    0 -4px 32px rgba(28, 20, 16, 0.12);
+
+  /* Transitions */
+  --transition:      0.15s ease;
+  --transition-med:  0.18s ease;
+}
+
+/* ============================================================
+   Reset & Base
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.5;
+  min-height: 100dvh;
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+img, video {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+input, textarea, select {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.2;
+}

@@ -1,0 +1,12 @@
+.label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+
+.required {
+  color: var(--primary);
+}

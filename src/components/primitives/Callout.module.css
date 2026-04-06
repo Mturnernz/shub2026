@@ -1,0 +1,47 @@
+.callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.icon {
+  flex-shrink: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.body {
+  flex: 1;
+}
+
+/* ── Variants ─────────────────────────────── */
+
+.sage {
+  background: var(--sage-light);
+  color: var(--sage-dark);
+}
+
+.gold {
+  background: var(--gold-light);
+  color: var(--gold-dark);
+}
+
+.primary {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+.ink {
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.lavender {
+  background: var(--lavender);
+  color: var(--lavender-dark);
+}
