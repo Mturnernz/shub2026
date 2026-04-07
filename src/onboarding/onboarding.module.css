@@ -1,0 +1,546 @@
+/* ── Layout ──────────────────────────────── */
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px 0 40px;
+}
+
+/* ── Field helpers ───────────────────────── */
+.fieldHeading {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-bottom: 10px;
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.fieldStack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hint {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* ── Navigation buttons ──────────────────── */
+.navRow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.nextBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 14px 24px;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+
+.nextBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.nextBtn:not(:disabled):active {
+  transform: scale(0.98);
+}
+
+.backBtn {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 14px 0;
+  white-space: nowrap;
+}
+
+/* ── Earnings card (Step 0) ──────────────── */
+.earningsCard {
+  background: var(--primary-light);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.earningsLabel {
+  font-size: 0.8125rem;
+  color: var(--primary-dark);
+  font-weight: 500;
+}
+
+.earningsAmount {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+.earningsSub {
+  font-size: 0.875rem;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+.sliderRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.slider {
+  flex: 1;
+  accent-color: var(--primary);
+}
+
+.sliderLabel {
+  font-size: 0.75rem;
+  color: var(--primary-dark);
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+/* ── Context cards (Step 0) ──────────────── */
+.contextGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.contextCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 14px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: left;
+}
+
+.contextCard:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.contextActive {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.contextEmoji { font-size: 1.5rem; }
+.contextLabel {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ── Avatar grid (Step 1) ────────────────── */
+.avatarGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.avatarBtn {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.avatarBtn:hover { border-color: var(--primary); }
+.avatarActive {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+/* ── Chips ───────────────────────────────── */
+.chipWrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.chip:hover { border-color: var(--primary); color: var(--primary); }
+.chipActive { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+/* ── Vibe grid (Step 2) ──────────────────── */
+.vibeGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.vibeBtn {
+  padding: 14px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.vibeBtn:hover { border-color: var(--primary); }
+.vibeBtnActive { border-color: var(--primary); background: var(--primary-light); color: var(--primary-dark); font-weight: 600; }
+.vibeBtnDimmed { opacity: 0.4; cursor: default; }
+
+/* ── Comfort levels (Step 3) ─────────────── */
+.comfortList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.comfortRow {
+  border-bottom: 1px solid var(--border);
+  padding: 14px 16px;
+  background: var(--card);
+}
+
+.comfortRow:last-child { border-bottom: none; }
+
+.comfortMain {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.comfortCheck {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--card);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.comfortCheckActive {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+
+.comfortCheckLocked {
+  border-color: var(--primary);
+  background: var(--primary);
+  cursor: default;
+}
+
+.comfortText { flex: 1; }
+.comfortLabel {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--ink);
+}
+.comfortDesc {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.expandBtn {
+  font-size: 0.75rem;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.exampleList {
+  margin-top: 8px;
+  padding-left: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  list-style: none;
+}
+
+.exampleList li {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  padding-left: 12px;
+  position: relative;
+}
+
+.exampleList li::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+}
+
+/* ── Availability toggle (Step 4) ────────── */
+.availToggle {
+  display: flex;
+  gap: 0;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.availBtn {
+  flex: 1;
+  padding: 10px;
+  background: var(--card);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.availBtnActive {
+  background: var(--primary);
+  color: #fff;
+}
+
+.daysStack { display: flex; flex-direction: column; gap: 12px; }
+
+.dayChips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+
+.dayTimeRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dayLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ink);
+  width: 32px;
+}
+
+.timeInput {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--ink);
+  background: var(--card);
+  outline: none;
+}
+
+.timeInput:focus { border-color: var(--primary); }
+.timeSep { color: var(--muted); }
+
+.toggleStack {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  padding: 0 16px;
+}
+
+/* ── Safety (Step 5) ─────────────────────── */
+.uploadBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--muted);
+  cursor: pointer;
+  width: 100%;
+  transition: all var(--transition);
+}
+
+.uploadBtn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+.clinicLink {
+  font-size: 0.875rem;
+  color: var(--primary);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ── Preview card (Step 6) ───────────────── */
+.previewCard {
+  border-radius: var(--radius-md);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.previewAvatar { font-size: 3rem; }
+.previewName {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.previewSub { font-size: 0.875rem; color: var(--muted); }
+.previewQuote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+.previewVibes {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 4px;
+}
+.previewVibe {
+  background: rgba(255,255,255,0.6);
+  border-radius: var(--radius-pill);
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+.previewPrice {
+  font-weight: 600;
+  color: var(--primary-dark);
+  margin-top: 4px;
+}
+
+/* ── Next steps list (Step 6) ────────────── */
+.nextSteps { display: flex; flex-direction: column; gap: 12px; }
+
+.nextStep {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.9375rem;
+  color: var(--ink-soft);
+}
+
+.nextStepNum {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── Consent (Step 6) ────────────────────── */
+.consentStack { display: flex; flex-direction: column; gap: 16px; }
+
+.consentRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  accent-color: var(--primary);
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+.consentText {
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+/* ── Done (Step 7) ───────────────────────── */
+.doneAvatar {
+  font-size: 5rem;
+  margin-bottom: 8px;
+}
+
+.doneHeading {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.doneSubtitle {
+  font-size: 0.9375rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
