@@ -9,7 +9,12 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "db:push": "supabase db push",
+    "db:reset": "supabase db reset",
+    "db:diff": "supabase db diff",
+    "functions:deploy": "supabase functions deploy --no-verify-jwt",
+    "supabase:link": "supabase link --project-ref trsknyrubmlibpvplvuq"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",
