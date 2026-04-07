@@ -1,0 +1,16 @@
+.page { padding: 72px 16px 100px; min-height: 100dvh; background: var(--bg); display: flex; flex-direction: column; gap: 20px; }
+.heading { font-family: var(--font-display); font-size: 1.75rem; font-weight: 600; color: var(--ink); }
+.modeToggle { display: flex; border: 1.5px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.modeBtn { flex: 1; padding: 11px; background: var(--card); font-family: var(--font-body); font-size: 0.875rem; font-weight: 500; color: var(--muted); border: none; cursor: pointer; transition: all var(--transition); }
+.modeBtnActive { background: var(--primary); color: #fff; }
+.daysSection { display: flex; flex-direction: column; gap: 12px; }
+.dayChips { display: flex; gap: 8px; flex-wrap: wrap; }
+.dayChip { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--border); background: var(--card); font-family: var(--font-body); font-size: 0.8125rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: all var(--transition); }
+.dayChipActive { background: var(--primary); border-color: var(--primary); color: #fff; }
+.timeRow { display: flex; align-items: center; gap: 10px; background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 10px 14px; }
+.dayLabel { font-weight: 600; font-size: 0.875rem; width: 32px; color: var(--ink); }
+.timeInput { flex: 1; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 7px 10px; font-family: var(--font-body); font-size: 0.875rem; color: var(--ink); background: var(--bg); outline: none; }
+.timeInput:focus { border-color: var(--primary); }
+.sep { color: var(--muted); }
+.skeleton { background: var(--surface); border-radius: var(--radius-md); animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }

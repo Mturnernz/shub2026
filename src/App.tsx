@@ -15,12 +15,30 @@ import SignupClient from './auth/SignupClient'
 import ResetPassword from './auth/ResetPassword'
 import ProviderOnboarding from './onboarding/ProviderOnboarding'
 
-// Placeholder — replaced in Phase 3+
-const Placeholder = ({ label }: { label: string }) => (
-  <div style={{ padding: '80px 24px 24px', fontFamily: 'var(--font-body)', color: 'var(--muted)', fontSize: 14 }}>
-    {label}
-  </div>
-)
+// Client screens
+import Discover from './screens/client/Discover'
+import Browse from './screens/client/Browse'
+import Requests from './screens/client/Requests'
+import MyRequests from './screens/client/MyRequests'
+import Account from './screens/client/Account'
+import Messages from './screens/client/Messages'
+import ChatThread from './screens/client/ChatThread'
+
+// Provider screens
+import Dashboard from './screens/provider/Dashboard'
+import ProviderRequests from './screens/provider/Requests'
+import Listing from './screens/provider/Listing'
+import Availability from './screens/provider/Availability'
+import OnlineServices from './screens/provider/OnlineServices'
+import Earnings from './screens/provider/Earnings'
+import Verification from './screens/provider/Verification'
+
+// Flows
+import Book from './flows/Book'
+import PostRequest from './flows/PostRequest'
+import Subscribe from './flows/Subscribe'
+import Shop from './flows/Shop'
+import ContentRequest from './flows/ContentRequest'
 
 function App() {
   const { setSession, setProfile } = useAuthStore()
@@ -73,66 +91,65 @@ function App() {
         {/* ── App shell (bottom nav + wordmark) ─ */}
         <Route element={<AppShell />}>
           {/* Client — public routes (guests allowed) */}
-          <Route path="/discover" element={<Placeholder label="Discover — Phase 3" />} />
-          <Route path="/browse" element={<Placeholder label="Browse — Phase 3" />} />
+          <Route path="/discover" element={<Discover />} />
+          <Route path="/browse" element={<Browse />} />
+
+          {/* Client — auth required */}
           <Route path="/requests" element={
-            <ProtectedRoute><Placeholder label="Requests board — Phase 3" /></ProtectedRoute>
+            <ProtectedRoute><Requests /></ProtectedRoute>
           } />
           <Route path="/my-requests" element={
-            <ProtectedRoute><Placeholder label="My requests — Phase 3" /></ProtectedRoute>
+            <ProtectedRoute><MyRequests /></ProtectedRoute>
           } />
           <Route path="/messages" element={
-            <ProtectedRoute><Placeholder label="Messages — Phase 5" /></ProtectedRoute>
+            <ProtectedRoute><Messages /></ProtectedRoute>
           } />
           <Route path="/messages/:conversationId" element={
-            <ProtectedRoute><Placeholder label="Chat thread — Phase 5" /></ProtectedRoute>
+            <ProtectedRoute><ChatThread /></ProtectedRoute>
           } />
           <Route path="/account" element={
-            <ProtectedRoute><Placeholder label="Account — Phase 3" /></ProtectedRoute>
-          } />
-          <Route path="/bookings" element={
-            <ProtectedRoute><Placeholder label="Booking history — Phase 3" /></ProtectedRoute>
+            <ProtectedRoute><Account /></ProtectedRoute>
           } />
 
-          {/* Provider */}
+          {/* Provider — auth + role required */}
           <Route path="/dashboard" element={
-            <ProtectedRoute role="provider"><Placeholder label="Dashboard — Phase 4" /></ProtectedRoute>
+            <ProtectedRoute role="provider"><Dashboard /></ProtectedRoute>
           } />
           <Route path="/provider/requests" element={
-            <ProtectedRoute role="provider"><Placeholder label="Provider requests — Phase 4" /></ProtectedRoute>
+            <ProtectedRoute role="provider"><ProviderRequests /></ProtectedRoute>
           } />
           <Route path="/listing" element={
-            <ProtectedRoute role="provider"><Placeholder label="My listing — Phase 4" /></ProtectedRoute>
+            <ProtectedRoute role="provider"><Listing /></ProtectedRoute>
           } />
           <Route path="/listing/online" element={
-            <ProtectedRoute role="provider"><Placeholder label="Online services — Phase 4" /></ProtectedRoute>
+            <ProtectedRoute role="provider"><OnlineServices /></ProtectedRoute>
           } />
           <Route path="/listing/availability" element={
-            <ProtectedRoute role="provider"><Placeholder label="Availability — Phase 4" /></ProtectedRoute>
+            <ProtectedRoute role="provider"><Availability /></ProtectedRoute>
           } />
           <Route path="/earnings" element={
-            <ProtectedRoute role="provider"><Placeholder label="Earnings — Phase 4" /></ProtectedRoute>
+            <ProtectedRoute role="provider"><Earnings /></ProtectedRoute>
           } />
           <Route path="/verification" element={
-            <ProtectedRoute role="provider"><Placeholder label="Verification — Phase 4" /></ProtectedRoute>
+            <ProtectedRoute role="provider"><Verification /></ProtectedRoute>
           } />
         </Route>
 
         {/* ── Full-screen flows (no shell) ────── */}
         <Route path="/book/:providerId" element={
-          <ProtectedRoute><Placeholder label="Book — Phase 3" /></ProtectedRoute>
+          <ProtectedRoute><Book /></ProtectedRoute>
         } />
         <Route path="/subscribe/:providerId" element={
-          <ProtectedRoute><Placeholder label="Subscribe — Phase 4" /></ProtectedRoute>
+          <ProtectedRoute><Subscribe /></ProtectedRoute>
         } />
-        <Route path="/shop/:providerId/:itemId" element={
-          <ProtectedRoute><Placeholder label="Shop — Phase 4" /></ProtectedRoute>
+        <Route path="/shop/:providerId" element={
+          <ProtectedRoute><Shop /></ProtectedRoute>
         } />
-        <Route path="/request/:providerId/:contentId" element={
-          <ProtectedRoute><Placeholder label="Content request — Phase 4" /></ProtectedRoute>
+        <Route path="/content-request/:providerId" element={
+          <ProtectedRoute><ContentRequest /></ProtectedRoute>
         } />
         <Route path="/post-request" element={
-          <ProtectedRoute><Placeholder label="Post request — Phase 3" /></ProtectedRoute>
+          <ProtectedRoute><PostRequest /></ProtectedRoute>
         } />
 
         {/* Fallback */}

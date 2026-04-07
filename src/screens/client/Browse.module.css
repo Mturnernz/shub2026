@@ -1,0 +1,41 @@
+.page {
+  padding: 72px 0 88px;
+  min-height: 100dvh;
+  background: var(--bg);
+}
+
+.searchWrap {
+  padding: 8px 16px 4px;
+}
+
+.filterRow {
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.filterRow::-webkit-scrollbar { display: none; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 4px 16px;
+}
+
+.skeleton {
+  height: 280px;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.emptyWrap {
+  padding: 20px 16px;
+}

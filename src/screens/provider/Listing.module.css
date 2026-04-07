@@ -1,0 +1,27 @@
+.page { padding: 72px 16px 100px; min-height: 100dvh; background: var(--bg); display: flex; flex-direction: column; gap: 20px; }
+.topRow { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.heading { font-family: var(--font-display); font-size: 1.75rem; font-weight: 600; color: var(--ink); }
+.empty { font-size: 0.9375rem; color: var(--muted); }
+
+.fieldList { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+.fieldRow { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background var(--transition); }
+.fieldRow:last-child { border-bottom: none; }
+.fieldRow:hover { background: var(--surface); }
+.fieldLabel { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+.fieldValue { font-size: 0.9375rem; color: var(--ink); margin-top: 2px; }
+.fieldEmpty { color: var(--muted-light); }
+.editIcon { color: var(--muted-light); font-size: 0.875rem; }
+
+.tagsRow { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 16px; border-bottom: 1px solid var(--border); }
+
+.navLinks { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+.navLink { display: flex; align-items: center; gap: 12px; padding: 14px 16px; text-decoration: none; color: var(--ink); border-bottom: 1px solid var(--border); font-size: 0.9375rem; font-weight: 500; transition: background var(--transition); }
+.navLink:last-child { border-bottom: none; }
+.navLink:hover { background: var(--surface); }
+.navLink span:last-child { color: var(--muted-light); margin-left: auto; font-size: 1.125rem; }
+
+.editSheet { padding: 4px 20px 32px; display: flex; flex-direction: column; gap: 16px; }
+.editHeading { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; color: var(--ink); text-transform: capitalize; }
+
+.skeleton { background: var(--surface); border-radius: var(--radius-md); animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }

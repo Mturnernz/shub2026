@@ -1,0 +1,25 @@
+.page { padding: 72px 0 88px; min-height: 100dvh; background: var(--bg); }
+.header { padding: 16px 20px 0; }
+.heading { font-family: var(--font-display); font-size: 1.75rem; font-weight: 600; color: var(--ink); }
+
+.tabs { display: flex; border-bottom: 1.5px solid var(--border); padding: 0 20px; margin-top: 12px; }
+.tab { flex: 1; padding: 12px 8px; font-family: var(--font-body); font-size: 0.875rem; font-weight: 500; color: var(--muted); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; margin-bottom: -1.5px; transition: all var(--transition); }
+.tabActive { color: var(--primary); border-bottom-color: var(--primary); }
+
+.list { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.skeleton { height: 200px; background: var(--surface); border-radius: var(--radius-md); animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+.pitchGroup { display: flex; flex-direction: column; gap: 8px; }
+.pitchGroupTitle { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.pitchCard { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+.pitchHeader { display: flex; align-items: center; justify-content: space-between; }
+.pitchFee { font-weight: 700; font-size: 1rem; color: var(--ink); }
+.pitchStatus { font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: var(--radius-pill); }
+.status_pending { background: var(--gold-light); color: var(--gold-dark); }
+.status_accepted { background: var(--sage-light); color: var(--sage-dark); }
+.status_declined { background: var(--surface); color: var(--muted); }
+.status_withdrawn { background: var(--surface); color: var(--muted); }
+.pitchMessage { font-size: 0.875rem; color: var(--ink-soft); line-height: 1.5; }
+.pitchActions { display: flex; gap: 8px; }
+.noPitches { font-size: 0.875rem; color: var(--muted); }

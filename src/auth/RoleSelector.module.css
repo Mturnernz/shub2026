@@ -125,26 +125,6 @@
   line-height: 1.4;
 }
 
-.guestBtn {
-  width: 100%;
-  padding: 12px;
-  background: none;
-  border: none;
-  font-family: var(--font-body);
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: var(--muted);
-  cursor: pointer;
-  transition: color var(--transition);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  text-decoration-color: var(--border);
-}
-
-.guestBtn:hover {
-  color: var(--ink);
-}
-
 .legal {
   font-family: var(--font-body);
   font-size: 0.75rem;

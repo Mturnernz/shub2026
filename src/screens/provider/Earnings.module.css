@@ -1,0 +1,18 @@
+.page { padding: 72px 16px 100px; min-height: 100dvh; background: var(--bg); display: flex; flex-direction: column; gap: 20px; }
+.heading { font-family: var(--font-display); font-size: 1.75rem; font-weight: 600; color: var(--ink); }
+.totalCard { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: var(--radius-md); padding: 20px; color: #fff; }
+.totalLabel { font-size: 0.8125rem; opacity: 0.8; }
+.totalNum { font-family: var(--font-display); font-size: 3rem; font-weight: 600; line-height: 1; margin: 4px 0; }
+.totalSub { font-size: 0.8125rem; opacity: 0.7; }
+.periodRow { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+.periodRow::-webkit-scrollbar { display: none; }
+.chartCard { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: 16px; }
+.txList { display: flex; flex-direction: column; gap: 1px; }
+.txTitle { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.txRow { display: flex; align-items: center; justify-content: space-between; background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 6px; }
+.txDate { font-size: 0.875rem; font-weight: 500; color: var(--ink); }
+.txType { font-size: 0.8125rem; color: var(--muted); text-transform: capitalize; }
+.txAmt { font-weight: 700; font-size: 1rem; color: var(--ink); }
+.empty { font-size: 0.875rem; color: var(--muted); }
+.skeleton { height: 56px; background: var(--surface); border-radius: var(--radius); margin-bottom: 6px; animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
