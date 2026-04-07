@@ -72,13 +72,9 @@ function App() {
 
         {/* ── App shell (bottom nav + wordmark) ─ */}
         <Route element={<AppShell />}>
-          {/* Client */}
-          <Route path="/discover" element={
-            <ProtectedRoute><Placeholder label="Discover — Phase 3" /></ProtectedRoute>
-          } />
-          <Route path="/browse" element={
-            <ProtectedRoute><Placeholder label="Browse — Phase 3" /></ProtectedRoute>
-          } />
+          {/* Client — public routes (guests allowed) */}
+          <Route path="/discover" element={<Placeholder label="Discover — Phase 3" />} />
+          <Route path="/browse" element={<Placeholder label="Browse — Phase 3" />} />
           <Route path="/requests" element={
             <ProtectedRoute><Placeholder label="Requests board — Phase 3" /></ProtectedRoute>
           } />

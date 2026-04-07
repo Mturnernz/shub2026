@@ -56,6 +56,10 @@ export default function RoleSelector() {
           </button>
         </div>
 
+        <button className={styles.guestBtn} onClick={() => navigate('/discover')}>
+          Continue as guest
+        </button>
+
         <p className={styles.legal}>
           shub is a directory for independent adult service providers operating lawfully under the
           Prostitution Reform Act 2003.{' '}
