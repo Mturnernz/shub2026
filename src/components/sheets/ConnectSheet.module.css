@@ -1,0 +1,78 @@
+.wrapper {
+  padding: 4px 20px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--ink);
+  padding-top: 4px;
+}
+
+.paths {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pathCard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--transition-med);
+}
+
+.pathCard:active { transform: scale(0.98); }
+
+.rose { border-color: var(--primary-light); background: var(--primary-light); }
+.rose:hover { border-color: var(--primary); }
+
+.teal { border-color: var(--teal-light); background: var(--teal-light); }
+.teal:hover { border-color: var(--teal); }
+
+.gold { border-color: var(--gold-light); background: var(--gold-light); }
+.gold:hover { border-color: var(--gold); }
+
+.pathIcon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.pathText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pathTitle {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.pathSub {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.pathArrow {
+  font-size: 1.125rem;
+  color: var(--muted);
+}
+
+.footer {
+  padding-top: 4px;
+}

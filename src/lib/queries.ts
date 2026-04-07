@@ -135,12 +135,26 @@ async function getMessages(conversationId: string): Promise<Message[]> {
 export const useConversations = () =>
   useQuery({ queryKey: ['conversations'], queryFn: getConversations })
 
-export const useMessages = (conversationId: string) =>
+export const useMessages = (conversationId: string | null) =>
   useQuery({
     queryKey: ['messages', conversationId],
-    queryFn: () => getMessages(conversationId),
+    queryFn: () => getMessages(conversationId!),
     enabled: !!conversationId,
   })
+
+async function getUnreadCount(): Promise<number> {
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return 0
+  const { count } = await supabase
+    .from('messages')
+    .select('*', { count: 'exact', head: true })
+    .neq('sender_id', user.id)
+    .is('read_at', null)
+  return count ?? 0
+}
+
+export const useUnreadCount = () =>
+  useQuery({ queryKey: ['unread-count'], queryFn: getUnreadCount, refetchInterval: 30000 })
 
 // ============================================================
 // Notifications
@@ -242,21 +256,22 @@ export function useSendMessage() {
   return useMutation({
     mutationFn: async ({
       conversationId,
-      senderId,
       body,
     }: {
       conversationId: string
-      senderId: string
       body: string
     }) => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) throw new Error('Not authenticated')
       const { error } = await supabase
         .from('messages')
-        .insert({ conversation_id: conversationId, sender_id: senderId, body })
+        .insert({ conversation_id: conversationId, sender_id: user.id, body })
       if (error) throw error
     },
     onSuccess: (_data, vars) => {
       queryClient.invalidateQueries({ queryKey: ['messages', vars.conversationId] })
       queryClient.invalidateQueries({ queryKey: ['conversations'] })
+      queryClient.invalidateQueries({ queryKey: ['unread-count'] })
     },
   })
 }

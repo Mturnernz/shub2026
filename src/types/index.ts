@@ -12,6 +12,7 @@ export interface Profile {
   dob?: string
   context?: 'student' | 'backpacker' | 'extra' | 'curious'
   avatar_emoji: string
+  avatar_url?: string
   bio?: string
   quote?: string
   suburb?: string
@@ -73,7 +74,12 @@ export interface Conversation {
   context_type?: 'booking' | 'request' | 'general'
   context_id?: string
   last_message_at?: string
+  last_message_preview?: string
+  unread_count?: number
   created_at: string
+  // Joined
+  participant_a_profile?: Pick<Profile, 'id' | 'display_name' | 'avatar_url'>
+  participant_b_profile?: Pick<Profile, 'id' | 'display_name' | 'avatar_url'>
 }
 
 export interface Message {
@@ -82,6 +88,7 @@ export interface Message {
   sender_id: string
   body: string
   read: boolean
+  read_at?: string | null
   created_at: string
 }
 
