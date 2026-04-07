@@ -1,0 +1,45 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 20, 16, 0.48);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  animation: fadeIn 0.15s ease;
+}
+
+.sheet {
+  background: var(--card);
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 0 0 env(safe-area-inset-bottom, 0);
+  box-shadow: var(--shadow-sheet);
+  animation: slideUp 0.2s ease;
+  overscroll-behavior: contain;
+}
+
+.tall {
+  max-height: 92vh;
+}
+
+.handle {
+  width: 32px;
+  height: 3px;
+  background: var(--border);
+  border-radius: 99px;
+  margin: 12px auto 8px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(48px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}

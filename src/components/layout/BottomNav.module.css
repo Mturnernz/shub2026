@@ -1,0 +1,48 @@
+.nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 10px 4px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color var(--transition);
+  min-width: 0;
+}
+
+.tab:hover {
+  color: var(--ink-soft);
+}
+
+.active {
+  color: var(--primary);
+}
+
+.icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}

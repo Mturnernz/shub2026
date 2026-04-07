@@ -1,0 +1,48 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.input::placeholder {
+  color: var(--muted-light);
+}
+
+.input:focus {
+  border-color: var(--primary);
+}
+
+.hasError {
+  border-color: var(--primary);
+}
+
+.hint {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.error {
+  font-size: 0.8125rem;
+  color: var(--primary);
+  font-weight: 500;
+}
