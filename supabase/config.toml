@@ -45,8 +45,8 @@ file_size_limit = "50MiB"
 
 [auth]
 enabled = true
-site_url = "http://127.0.0.1:5173"
-additional_redirect_urls = ["https://trsknyrubmlibpvplvuq.supabase.co"]
+site_url = "https://www.shub.nz"
+additional_redirect_urls = ["https://www.shub.nz", "https://www.shub.nz/**"]
 jwt_expiry = 3600
 enable_refresh_token_rotation = true
 refresh_token_reuse_interval = 10
