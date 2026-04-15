@@ -4,7 +4,6 @@ import { Btn, Callout, OBInput, OBTextarea } from '../components/primitives'
 import { useProvider } from '../lib/queries'
 import { supabase } from '../lib/supabase'
 import { useAuthStore } from '../store/auth.store'
-import { useUIStore } from '../store/ui.store'
 import type { Booking } from '../types'
 import styles from './Book.module.css'
 
@@ -22,8 +21,7 @@ export default function Book() {
   const { providerId } = useParams<{ providerId: string }>()
   const navigate = useNavigate()
   const { session } = useAuthStore()
-  const { showToast } = useUIStore()
-  const { data: listing } = useProvider(providerId ?? '')
+const { data: listing } = useProvider(providerId ?? '')
 
   const [step, setStep] = useState(0)
   const [type, setType] = useState<BookingType>('social')
