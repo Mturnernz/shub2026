@@ -106,7 +106,12 @@ export default function Account() {
       </div>
 
       <div className={styles.section}>
-        <Btn v="ghost" full onClick={signOut}>Sign out</Btn>
+        <div className={styles.sectionCard}>
+          <button className={styles.signOutRow} onClick={signOut}>
+            <span className={styles.linkIcon}>↩</span>
+            <span className={styles.linkLabel}>Sign out</span>
+          </button>
+        </div>
       </div>
     </div>
   )
