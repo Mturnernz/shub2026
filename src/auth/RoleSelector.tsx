@@ -24,10 +24,16 @@ export default function RoleSelector() {
     }
   }, [session, navigate])
 
-  const choose = (role: 'client' | 'provider') => {
-    setActiveRole(role)
-    localStorage.setItem(SEEN_KEY, role)
-    navigate(role === 'provider' ? '/signup/provider' : '/login', { replace: true })
+  const choose = (role: 'client' | 'provider' | 'both') => {
+    if (role === 'both') {
+      setActiveRole('client')
+      localStorage.setItem(SEEN_KEY, 'client')
+      navigate('/signup/client?next=provider', { replace: true })
+    } else {
+      setActiveRole(role)
+      localStorage.setItem(SEEN_KEY, role)
+      navigate(role === 'provider' ? '/signup/provider' : '/signup/client', { replace: true })
+    }
   }
 
   return (
@@ -54,7 +60,17 @@ export default function RoleSelector() {
             <span className={styles.cardTitle}>I'm a companion</span>
             <span className={styles.cardDesc}>List your services and manage your schedule</span>
           </button>
+
+          <button className={[styles.card, styles.cardBoth].join(' ')} onClick={() => choose('both')}>
+            <span className={styles.cardEmoji}>⬡</span>
+            <span className={styles.cardTitle}>I'm both</span>
+            <span className={styles.cardDesc}>Book companions and list your own services</span>
+          </button>
         </div>
+
+        <button className={styles.browseLink} onClick={() => navigate('/discover')}>
+          Browse without signing up
+        </button>
 
         <p className={styles.legal}>
           shub is a directory for independent adult service providers operating lawfully under the

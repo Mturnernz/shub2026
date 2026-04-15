@@ -13,6 +13,8 @@ import RoleSelector from './auth/RoleSelector'
 import Login from './auth/Login'
 import SignupClient from './auth/SignupClient'
 import ResetPassword from './auth/ResetPassword'
+import UpdatePassword from './auth/UpdatePassword'
+import EmailConfirmed from './auth/EmailConfirmed'
 import ProviderOnboarding from './onboarding/ProviderOnboarding'
 
 // Client screens
@@ -23,6 +25,9 @@ import MyRequests from './screens/client/MyRequests'
 import Account from './screens/client/Account'
 import Messages from './screens/client/Messages'
 import ChatThread from './screens/client/ChatThread'
+import Bookings from './screens/client/Bookings'
+import Saved from './screens/client/Saved'
+import Privacy from './screens/client/Privacy'
 
 // Provider screens
 import Dashboard from './screens/provider/Dashboard'
@@ -87,6 +92,8 @@ function App() {
         <Route path="/signup/client" element={<SignupClient />} />
         <Route path="/signup/provider" element={<ProviderOnboarding />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/update-password" element={<UpdatePassword />} />
+        <Route path="/welcome" element={<EmailConfirmed />} />
 
         {/* ── App shell (bottom nav + wordmark) ─ */}
         <Route element={<AppShell />}>
@@ -107,8 +114,15 @@ function App() {
           <Route path="/messages/:conversationId" element={
             <ProtectedRoute><ChatThread /></ProtectedRoute>
           } />
-          <Route path="/account" element={
-            <ProtectedRoute><Account /></ProtectedRoute>
+          <Route path="/account" element={<Account />} />
+          <Route path="/bookings" element={
+            <ProtectedRoute><Bookings /></ProtectedRoute>
+          } />
+          <Route path="/saved" element={
+            <ProtectedRoute><Saved /></ProtectedRoute>
+          } />
+          <Route path="/privacy" element={
+            <ProtectedRoute><Privacy /></ProtectedRoute>
           } />
 
           {/* Provider — auth + role required */}

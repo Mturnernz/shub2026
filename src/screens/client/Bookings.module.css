@@ -1,0 +1,22 @@
+.page { padding: 72px 0 88px; min-height: 100dvh; background: var(--bg); }
+.header { padding: 16px 20px 0; }
+.heading { font-family: var(--font-display); font-size: 1.75rem; font-weight: 600; color: var(--ink); }
+
+.list { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.skeleton { height: 96px; background: var(--surface); border-radius: var(--radius-md); animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+.card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+.cardTop { display: flex; align-items: center; justify-content: space-between; }
+.type { font-family: var(--font-display); font-size: 1rem; font-weight: 600; color: var(--ink); text-transform: capitalize; }
+.status { font-size: 0.75rem; font-weight: 600; padding: 3px 10px; border-radius: var(--radius-pill); }
+.status_pending { background: var(--gold-light); color: var(--gold-dark); }
+.status_confirmed { background: var(--sage-light); color: var(--sage-dark); }
+.status_completed { background: var(--surface); color: var(--muted); }
+.status_cancelled { background: var(--surface); color: var(--muted); text-decoration: line-through; }
+.meta { font-size: 0.875rem; color: var(--ink-soft); }
+.price { font-size: 0.875rem; font-weight: 600; color: var(--ink); }
+
+.empty { padding: 48px 24px; text-align: center; }
+.emptyEmoji { font-size: 2rem; margin-bottom: 12px; }
+.emptyText { font-size: 0.9375rem; color: var(--muted); line-height: 1.5; }

@@ -101,6 +101,11 @@
 
 .cardProvider:focus-visible { border-color: var(--gold); background: var(--gold-light); }
 
+.cardBoth:hover,
+.cardBoth:focus-visible { border-color: var(--sage-dark); background: var(--sage-light); }
+
+.cardBoth .cardEmoji { color: var(--sage-dark); }
+
 .cardEmoji {
   font-size: 1.25rem;
   margin-bottom: 4px;
@@ -124,6 +129,25 @@
   color: var(--muted);
   line-height: 1.4;
 }
+
+.browseLink {
+  display: block;
+  width: 100%;
+  padding: 10px 0;
+  margin-bottom: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--muted);
+  text-align: center;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color var(--transition);
+}
+
+.browseLink:hover { color: var(--ink-soft); }
 
 .legal {
   font-family: var(--font-body);
