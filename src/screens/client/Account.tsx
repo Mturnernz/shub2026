@@ -71,16 +71,24 @@ export default function Account() {
       <div className={styles.section}>
         <p className={styles.sectionLabel}>Activity</p>
         <div className={styles.sectionCard}>
-          <LinkRow label="My arrangements" to="/my-requests" icon="📅" />
+          <LinkRow label="My arrangements" to="/bookings" icon="📅" />
           <LinkRow label="My requests" to="/my-requests" icon="🧳" />
-          <LinkRow label="Saved companions" to="/discover" icon="♥" />
+          <LinkRow label="Saved companions" to="/saved" icon="♥" />
         </div>
       </div>
+
+      {!isProvider && (
+        <div className={styles.section}>
+          <div className={styles.sectionCard}>
+            <LinkRow label="Become a companion" to="/signup/provider" icon="✦" />
+          </div>
+        </div>
+      )}
 
       <div className={styles.section}>
         <p className={styles.sectionLabel}>Settings</p>
         <div className={styles.sectionCard}>
-          <LinkRow label="Privacy settings" to="/account" icon="🔒" />
+          <LinkRow label="Privacy settings" to="/privacy" icon="🔒" />
           <div className={styles.safetyRow}>
             <span className={styles.linkIcon}>🛡</span>
             <div className={styles.safetyText}>

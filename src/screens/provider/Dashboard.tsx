@@ -44,6 +44,19 @@ export default function Dashboard() {
     })
   }, [profile?.id])
 
+  async function respondToBooking(bookingId: string, status: 'confirmed' | 'cancelled') {
+    const { error } = await supabase
+      .from('bookings')
+      .update({ status })
+      .eq('id', bookingId)
+    if (!error) {
+      setBookings((prev) =>
+        prev.map((b) => b.id === bookingId ? { ...b, status } : b)
+      )
+      showToast(status === 'confirmed' ? 'Booking confirmed.' : 'Booking declined.')
+    }
+  }
+
   async function togglePause() {
     if (!listing) return
     setPausing(true)
@@ -143,12 +156,16 @@ export default function Dashboard() {
         <div className={styles.section}>
           <p className={styles.sectionTitle}>Pending enquiries</p>
           {pending.slice(0, 3).map((b) => (
-            <div key={b.id} className={styles.bookingRow}>
-              <div>
+            <div key={b.id} className={styles.pendingCard}>
+              <div className={styles.pendingInfo}>
                 <p className={styles.bookingDate}>{new Date(b.booking_date).toLocaleDateString('en-NZ', { weekday: 'short', day: 'numeric', month: 'short' })} · {b.start_time.slice(0, 5)}</p>
-                <p className={styles.bookingType}>{b.type}</p>
+                <p className={styles.bookingType}>{b.type} arrangement</p>
+                {b.price_agreed && <p className={styles.bookingType}>${b.price_agreed} NZD</p>}
               </div>
-              <span className={styles.pendingBadge}>Pending</span>
+              <div className={styles.pendingActions}>
+                <button className={styles.btnAccept} onClick={() => respondToBooking(b.id, 'confirmed')}>Accept</button>
+                <button className={styles.btnDecline} onClick={() => respondToBooking(b.id, 'cancelled')}>Decline</button>
+              </div>
             </div>
           ))}
         </div>

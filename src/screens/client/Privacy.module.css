@@ -1,0 +1,11 @@
+.page { padding: 72px 0 88px; min-height: 100dvh; background: var(--bg); }
+.header { padding: 16px 20px 12px; }
+.heading { font-family: var(--font-display); font-size: 1.75rem; font-weight: 600; color: var(--ink); }
+
+.section { padding: 0 16px; margin-bottom: 24px; }
+.sectionLabel { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; padding: 0 4px; }
+.sectionCard { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+.row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+.row:last-child { border-bottom: none; }
+.rowLabel { font-size: 0.9375rem; color: var(--ink); font-weight: 500; }
+.rowDesc { font-size: 0.8125rem; color: var(--muted); margin-top: 2px; line-height: 1.4; }

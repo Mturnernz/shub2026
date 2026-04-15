@@ -37,7 +37,9 @@ export default function ConnectSheet({ providerId, open, onClose, listing, onVie
   return (
     <Sheet open={open} onClose={onClose}>
       <div className={styles.wrapper}>
-        <h2 className={styles.heading}>How would you like to connect?</h2>
+        <h2 className={styles.heading}>
+          {listing?.profiles?.display_name ? `Connect with ${listing.profiles.display_name.split(' ')[0]}` : 'Connect'}
+        </h2>
 
         <div className={styles.paths}>
           {showInPerson && (

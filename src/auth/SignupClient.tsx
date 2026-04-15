@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useUIStore } from '../store/ui.store'
 import { Btn, OBInput, Callout } from '../components/primitives'
@@ -7,6 +7,7 @@ import styles from './auth.module.css'
 
 export default function SignupClient() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const { showToast } = useUIStore()
   const [displayName, setDisplayName] = useState('')
   const [email, setEmail] = useState('')
@@ -27,7 +28,7 @@ export default function SignupClient() {
       password,
       options: {
         data: { display_name: displayName },
-        emailRedirectTo: `${window.location.origin}/discover`,
+        emailRedirectTo: `${window.location.origin}/welcome`,
       },
     })
     if (authError) {
@@ -47,7 +48,8 @@ export default function SignupClient() {
     }
     setLoading(false)
     showToast('Check your email to confirm your account.')
-    navigate('/login')
+    const next = searchParams.get('next')
+    navigate(next === 'provider' ? '/signup/provider' : '/login')
   }
 
   const valid = displayName.trim().length > 0 && email.length > 0 && password.length >= 8

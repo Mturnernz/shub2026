@@ -19,7 +19,7 @@ import styles from './ProviderOnboarding.module.css'
 export default function ProviderOnboarding() {
   const navigate = useNavigate()
   const { showToast } = useUIStore()
-  const { session, setActiveRole } = useAuthStore()
+  const { session, profile, setActiveRole, setProfile } = useAuthStore()
   const [step, setStep] = useState(0)
   const [data, setData] = useState<OnboardingData>(initialData)
   const [submitting, setSubmitting] = useState(false)
@@ -58,9 +58,12 @@ export default function ProviderOnboarding() {
 
   const persistListing = async (userId: string) => {
     setSubmitting(true)
+    // Merge provider role into any existing roles (e.g. existing client becomes ['client','provider'])
+    const existingRoles = profile?.role ?? []
+    const mergedRoles = Array.from(new Set([...existingRoles, 'provider']))
     try {
       // Upsert profile
-      await supabase.from('profiles').upsert({
+      const { data: updatedProfile } = await supabase.from('profiles').upsert({
         id: userId,
         display_name: data.displayName,
         email: data.email,
@@ -72,9 +75,10 @@ export default function ProviderOnboarding() {
         suburb: data.suburb || null,
         pronouns: data.pronouns || null,
         phone: data.phone || null,
-        role: ['provider'],
+        role: mergedRoles,
         active_role: 'provider',
-      })
+      }).select().single()
+      if (updatedProfile) setProfile(updatedProfile as import('../types').Profile)
 
       // Insert listing
       await supabase.from('provider_listings').upsert({

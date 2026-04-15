@@ -4,7 +4,7 @@ import { Btn, Callout, OBInput, OBTextarea } from '../components/primitives'
 import { useProvider } from '../lib/queries'
 import { supabase } from '../lib/supabase'
 import { useAuthStore } from '../store/auth.store'
-import { useUIStore } from '../store/ui.store'
+import type { Booking } from '../types'
 import styles from './Book.module.css'
 
 const TYPES = [
@@ -21,8 +21,7 @@ export default function Book() {
   const { providerId } = useParams<{ providerId: string }>()
   const navigate = useNavigate()
   const { session } = useAuthStore()
-  const { showToast } = useUIStore()
-  const { data: listing } = useProvider(providerId ?? '')
+const { data: listing } = useProvider(providerId ?? '')
 
   const [step, setStep] = useState(0)
   const [type, setType] = useState<BookingType>('social')
@@ -31,6 +30,7 @@ export default function Book() {
   const [note, setNote] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [confirmed, setConfirmed] = useState<Booking | null>(null)
 
   const profile = listing?.profiles
   const availableTypes = TYPES.filter((t) => {
@@ -55,7 +55,7 @@ export default function Book() {
       return
     }
 
-    const { error: insertErr } = await supabase.from('bookings').insert({
+    const { data: inserted, error: insertErr } = await supabase.from('bookings').insert({
       client_id: session.user.id,
       provider_id: providerId,
       type,
@@ -64,11 +64,62 @@ export default function Book() {
       note: note || null,
       price_agreed: price ?? null,
       status: 'pending',
-    })
+    }).select().single()
     setLoading(false)
     if (insertErr) { setError('Something went wrong. Please try again.'); return }
-    showToast('Arrangement requested — you\'ll hear back soon.')
-    navigate('/discover')
+    setConfirmed(inserted as Booking)
+  }
+
+  if (confirmed) {
+    const initials = (profile?.display_name ?? '')
+      .split(' ').filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join('')
+    return (
+      <div className={styles.page}>
+        <div className={styles.header}>
+          <div />
+          <p className={styles.wordmark}>shub</p>
+          <div />
+        </div>
+        <div className={styles.confirmedWrap}>
+          <div className={styles.confirmedTick}>✓</div>
+          <h1 className={styles.confirmedHeading}>Request sent!</h1>
+          <p className={styles.confirmedSub}>
+            {profile?.display_name} will confirm your arrangement soon.
+          </p>
+          <div className={styles.confirmedChip}>
+            <div className={styles.confirmedAvatar}
+              style={{ background: `linear-gradient(135deg, ${listing?.bg_from ?? '#EAD8CC'}, ${listing?.bg_to ?? '#D4C0B0'})` }}>
+              {initials}
+            </div>
+            <div>
+              <p className={styles.confirmedChipName}>{profile?.display_name}</p>
+              <p className={styles.confirmedChipMeta}>
+                {confirmed.type} · {new Date(confirmed.booking_date).toLocaleDateString('en-NZ', { weekday: 'short', day: 'numeric', month: 'short' })} · {confirmed.start_time.slice(0, 5)}
+                {confirmed.price_agreed ? ` · $${confirmed.price_agreed} / hr` : ''}
+              </p>
+            </div>
+          </div>
+          <div className={styles.timeline}>
+            <div className={styles.timelineStep}>
+              <div className={styles.timelineDot} />
+              <div><strong>Request received</strong><p>Your request is with {profile?.display_name}.</p></div>
+            </div>
+            <div className={styles.timelineLine} />
+            <div className={styles.timelineStep}>
+              <div className={styles.timelineDot} />
+              <div><strong>Companion confirms</strong><p>They'll accept or suggest a new time.</p></div>
+            </div>
+            <div className={styles.timelineLine} />
+            <div className={styles.timelineStep}>
+              <div className={styles.timelineDot} />
+              <div><strong>You're all set</strong><p>Payment is arranged directly with your companion.</p></div>
+            </div>
+          </div>
+          <Btn full onClick={() => navigate('/messages')}>Message them →</Btn>
+          <Btn v="ghost" full onClick={() => navigate('/bookings')}>View my arrangements</Btn>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -133,7 +184,9 @@ export default function Book() {
             <div className={styles.summaryRow}><span>Date</span><span>{new Date(date).toLocaleDateString('en-NZ', { weekday: 'short', day: 'numeric', month: 'long' })}</span></div>
             <div className={styles.summaryRow}><span>Time</span><span>{time}</span></div>
             {price && <div className={styles.summaryRow}><span>Rate</span><span className={styles.summaryPrice}>from ${price} / hr</span></div>}
+          {price && <div className={styles.summaryRow}><span>Estimated total</span><span className={styles.summaryEst}>${price * 2}–${price * 3} for 2–3 hrs</span></div>}
           </div>
+          <p className={styles.priceNote}>Final price is agreed directly with your companion after confirmation.</p>
           <OBTextarea label="Optional note" placeholder="Anything you'd like them to know…" value={note} onChange={(e) => setNote(e.target.value)} rows={3} />
           <Callout v="gold" icon="★">
             This is a request — the companion will confirm before any arrangement is finalised.

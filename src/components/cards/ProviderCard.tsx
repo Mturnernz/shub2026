@@ -18,6 +18,15 @@ export default function ProviderCard({ listing, onClick }: ProviderCardProps) {
   const profile = listing.profiles
   const moodString = listing.mood_tags?.join(' · ') ?? ''
 
+  const initials = (profile.display_name ?? '')
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0].toUpperCase())
+    .join('')
+
+  const isNew = (listing.review_count ?? 0) === 0
+
   const typeLabel =
     listing.type === 'inperson'
       ? 'In-person'
@@ -53,7 +62,10 @@ export default function ProviderCard({ listing, onClick }: ProviderCardProps) {
         className={styles.banner}
         style={{ background: `linear-gradient(135deg, ${listing.bg_from}, ${listing.bg_to})` }}
       >
-        <span className={styles.emoji}>{profile.avatar_emoji}</span>
+        <span className={styles.monogram}>{initials}</span>
+
+        {/* New badge */}
+        {isNew && <span className={styles.newBadge}>New</span>}
 
         {/* Save heart */}
         {session && (

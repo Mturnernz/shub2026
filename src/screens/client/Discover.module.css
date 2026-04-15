@@ -78,6 +78,14 @@
   color: var(--muted);
 }
 
+.waitlist { padding: 24px 20px; display: flex; flex-direction: column; gap: 12px; }
+.waitlistTick { width: 40px; height: 40px; border-radius: 50%; background: var(--sage-light); color: var(--sage-dark); font-size: 1.1rem; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+.waitlistHead { font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; color: var(--ink); }
+.waitlistSub { font-size: 0.875rem; color: var(--muted); line-height: 1.5; }
+.waitlistRow { display: flex; gap: 8px; align-items: center; }
+.waitlistInput { flex: 1; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-md); background: var(--card); font-family: var(--font-body); font-size: 0.9rem; color: var(--ink); outline: none; }
+.waitlistInput:focus { border-color: var(--primary); }
+
 .fab {
   position: fixed;
   bottom: 84px;

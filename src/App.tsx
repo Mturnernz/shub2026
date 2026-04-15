@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
+import { useQueryClient } from '@tanstack/react-query'
 import { supabase } from './lib/supabase'
 import { useAuthStore } from './store/auth.store'
 import { useUIStore } from './store/ui.store'
@@ -13,6 +14,8 @@ import RoleSelector from './auth/RoleSelector'
 import Login from './auth/Login'
 import SignupClient from './auth/SignupClient'
 import ResetPassword from './auth/ResetPassword'
+import UpdatePassword from './auth/UpdatePassword'
+import EmailConfirmed from './auth/EmailConfirmed'
 import ProviderOnboarding from './onboarding/ProviderOnboarding'
 
 // Client screens
@@ -23,6 +26,9 @@ import MyRequests from './screens/client/MyRequests'
 import Account from './screens/client/Account'
 import Messages from './screens/client/Messages'
 import ChatThread from './screens/client/ChatThread'
+import Bookings from './screens/client/Bookings'
+import Saved from './screens/client/Saved'
+import Privacy from './screens/client/Privacy'
 
 // Provider screens
 import Dashboard from './screens/provider/Dashboard'
@@ -43,6 +49,7 @@ import ContentRequest from './flows/ContentRequest'
 function App() {
   const { setSession, setProfile } = useAuthStore()
   const { toastMsg, clearToast } = useUIStore()
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -78,6 +85,21 @@ function App() {
     return () => listener.subscription.unsubscribe()
   }, [setSession, setProfile])
 
+  // Realtime subscription — invalidate notifications query on new row
+  useEffect(() => {
+    const channel = supabase
+      .channel('notifications-global')
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'notifications',
+      }, () => {
+        queryClient.invalidateQueries({ queryKey: ['notifications'] })
+      })
+      .subscribe()
+    return () => { supabase.removeChannel(channel) }
+  }, [queryClient])
+
   return (
     <>
       <Routes>
@@ -87,6 +109,8 @@ function App() {
         <Route path="/signup/client" element={<SignupClient />} />
         <Route path="/signup/provider" element={<ProviderOnboarding />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/update-password" element={<UpdatePassword />} />
+        <Route path="/welcome" element={<EmailConfirmed />} />
 
         {/* ── App shell (bottom nav + wordmark) ─ */}
         <Route element={<AppShell />}>
@@ -107,8 +131,15 @@ function App() {
           <Route path="/messages/:conversationId" element={
             <ProtectedRoute><ChatThread /></ProtectedRoute>
           } />
-          <Route path="/account" element={
-            <ProtectedRoute><Account /></ProtectedRoute>
+          <Route path="/account" element={<Account />} />
+          <Route path="/bookings" element={
+            <ProtectedRoute><Bookings /></ProtectedRoute>
+          } />
+          <Route path="/saved" element={
+            <ProtectedRoute><Saved /></ProtectedRoute>
+          } />
+          <Route path="/privacy" element={
+            <ProtectedRoute><Privacy /></ProtectedRoute>
           } />
 
           {/* Provider — auth + role required */}

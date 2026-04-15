@@ -1,0 +1,46 @@
+.page { padding: 72px 0 88px; min-height: 100dvh; background: var(--bg); }
+.header { padding: 16px 20px 0; }
+.heading { font-family: var(--font-display); font-size: 1.75rem; font-weight: 600; color: var(--ink); }
+
+.list { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.skeleton { height: 96px; background: var(--surface); border-radius: var(--radius-md); animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+.card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+.cardTop { display: flex; align-items: center; justify-content: space-between; }
+.type { font-family: var(--font-display); font-size: 1rem; font-weight: 600; color: var(--ink); text-transform: capitalize; }
+.status { font-size: 0.75rem; font-weight: 600; padding: 3px 10px; border-radius: var(--radius-pill); }
+.status_pending { background: var(--gold-light); color: var(--gold-dark); }
+.status_confirmed { background: var(--sage-light); color: var(--sage-dark); }
+.status_completed { background: var(--surface); color: var(--muted); }
+.status_cancelled { background: var(--surface); color: var(--muted); text-decoration: line-through; }
+.meta { font-size: 0.875rem; color: var(--ink-soft); }
+.price { font-size: 0.875rem; font-weight: 600; color: var(--ink); }
+
+.empty { padding: 48px 24px; text-align: center; }
+.emptyEmoji { font-size: 2rem; margin-bottom: 12px; }
+.emptyText { font-size: 0.9375rem; color: var(--muted); line-height: 1.5; }
+
+.actions { display: flex; gap: 8px; padding-top: 4px; }
+.actionBtn { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 600; padding: 6px 14px; border-radius: var(--radius-pill); border: 1.5px solid var(--border); background: var(--card); color: var(--ink-soft); cursor: pointer; transition: all var(--transition); }
+.actionBtn:hover { border-color: var(--ink); color: var(--ink); }
+.actionBtnPrimary { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 600; padding: 6px 14px; border-radius: var(--radius-pill); border: none; background: var(--primary); color: #fff; cursor: pointer; transition: opacity var(--transition); }
+.actionBtnPrimary:hover:not(:disabled) { opacity: 0.85; }
+.actionBtnPrimary:disabled { opacity: 0.5; cursor: not-allowed; }
+.actionBtnGhost { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 500; padding: 6px 14px; border-radius: var(--radius-pill); border: 1.5px solid var(--border); background: none; color: var(--muted); cursor: pointer; transition: all var(--transition); }
+.actionBtnGhost:hover { border-color: var(--primary); color: var(--primary); }
+.cancelConfirm { display: flex; flex-direction: column; gap: 8px; padding-top: 4px; }
+.cancelPrompt { font-size: 0.875rem; font-weight: 600; color: var(--ink); }
+
+/* Review sheet */
+.sheetOverlay { position: fixed; inset: 0; background: rgba(28,20,16,0.45); z-index: 100; display: flex; align-items: flex-end; }
+.sheet { width: 100%; background: var(--card); border-radius: var(--radius-xl) var(--radius-xl) 0 0; padding: 12px 20px 40px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 -4px 32px rgba(28,20,16,0.12); }
+.sheetHandle { width: 40px; height: 4px; border-radius: var(--radius-pill); background: var(--border); align-self: center; margin-bottom: 4px; }
+.sheetTitle { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; color: var(--ink); }
+.starRow { display: flex; gap: 8px; }
+.star { font-size: 2rem; background: none; border: none; cursor: pointer; padding: 0; line-height: 1; transition: color var(--transition); }
+.reviewTextarea { width: 100%; padding: 12px; border: 1.5px solid var(--border); border-radius: var(--radius-md); background: var(--bg); font-family: var(--font-body); font-size: 0.9rem; color: var(--ink); resize: none; outline: none; line-height: 1.5; }
+.reviewTextarea:focus { border-color: var(--primary); }
+.submitBtn { font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; padding: 14px; border-radius: var(--radius-md); border: none; background: var(--primary); color: #fff; cursor: pointer; transition: opacity var(--transition); }
+.submitBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+.submitBtn:not(:disabled):hover { opacity: 0.85; }

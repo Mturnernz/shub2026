@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shub — Board Review Document</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAF6F2; --card: #FFFFFF; --border: #EAD8CC; --surface: #F5EDE6;
+  --ink: #1C1410; --ink-soft: #3D2820; --muted: #8C7060; --muted-light: #C4AFA4;
+  --primary: #A8334C; --primary-light: #F5D8DF; --primary-dark: #7A1F34;
+  --gold: #C8960A; --gold-light: #F7EAC0; --gold-dark: #8C6800;
+  --sage: #5A8070; --sage-light: #D8EDE6; --sage-dark: #3A5548;
+  --lavender: #E8E0F5; --lavender-dark: #6B5B9A;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #F0EBE5; font-family: var(--font-body); color: var(--ink); font-size: 15px; line-height: 1.6; }
+
+/* ── Document layout ── */
+.doc { max-width: 1160px; margin: 0 auto; padding: 48px 24px 80px; }
+.section { margin-bottom: 72px; }
+.section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+h1.display { font-family: var(--font-display); font-size: 3.5rem; font-weight: 600; color: var(--ink); line-height: 1.1; }
+h2.section-title { font-family: var(--font-display); font-size: 2rem; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+p.lead { font-size: 1.0625rem; color: var(--ink-soft); line-height: 1.7; max-width: 640px; }
+
+/* ── Cover ── */
+.cover { background: var(--ink); border-radius: 20px; padding: 56px 56px 48px; margin-bottom: 72px; position: relative; overflow: hidden; }
+.cover::before { content: ''; position: absolute; top: -60px; right: -60px; width: 320px; height: 320px; border-radius: 50%; background: var(--primary); opacity: 0.15; }
+.cover-wordmark { font-family: var(--font-display); font-size: 2.5rem; color: #fff; opacity: 0.9; margin-bottom: 40px; }
+.cover h1 { font-family: var(--font-display); font-size: 3rem; font-weight: 600; color: #fff; line-height: 1.15; margin-bottom: 16px; }
+.cover p { color: rgba(255,255,255,0.6); font-size: 1rem; }
+.cover-meta { margin-top: 48px; display: flex; gap: 40px; flex-wrap: wrap; }
+.cover-meta-item { }
+.cover-meta-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 4px; }
+.cover-meta-value { font-size: 0.9375rem; color: rgba(255,255,255,0.8); }
+
+/* ── Info card ── */
+.info-card { background: var(--card); border-radius: 16px; border: 1.5px solid var(--border); padding: 28px 32px; }
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; }
+.info-item-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.info-item-value { font-size: 1rem; color: var(--ink); font-weight: 500; }
+.info-item-sub { font-size: 0.875rem; color: var(--muted); margin-top: 2px; }
+
+/* ── Status pills ── */
+.pill { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 99px; }
+.pill-red { background: #FDECEA; color: #C0392B; }
+.pill-yellow { background: var(--gold-light); color: var(--gold-dark); }
+.pill-green { background: var(--sage-light); color: var(--sage-dark); }
+.pill-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+/* ── Changes shipped grid ── */
+.changes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.change-card { background: var(--card); border-radius: 12px; border: 1.5px solid var(--border); padding: 20px; }
+.change-card-num { font-family: var(--font-display); font-size: 1.75rem; font-weight: 600; color: var(--primary); margin-bottom: 8px; }
+.change-card-title { font-weight: 600; color: var(--ink); margin-bottom: 4px; font-size: 0.9375rem; }
+.change-card-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.5; }
+
+/* ── Mockup section ── */
+.mockup-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 48px; }
+.mockup-group { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.mockup-group.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+.mockup-label { font-size: 13px; font-weight: 600; color: var(--ink-soft); text-align: center; }
+.mockup-sub { font-size: 12px; color: var(--muted); text-align: center; margin-top: -10px; }
+.badge-new { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: var(--sage-light); color: var(--sage-dark); padding: 2px 8px; border-radius: 99px; margin-left: 8px; vertical-align: middle; }
+.badge-before { background: var(--gold-light); color: var(--gold-dark); }
+
+/* ── Phone frame ── */
+.phone { width: 280px; background: #1a1a1a; border-radius: 44px; padding: 12px; box-shadow: 0 24px 64px rgba(0,0,0,0.3), 0 0 0 1px #333; flex-shrink: 0; }
+.phone-inner { background: var(--bg); border-radius: 34px; overflow: hidden; height: 560px; position: relative; }
+.phone-notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 90px; height: 26px; background: #1a1a1a; border-radius: 0 0 16px 16px; z-index: 10; }
+.phone-screen { height: 100%; overflow: hidden; position: relative; }
+.phone.sm .phone-inner { height: 480px; }
+
+/* ── Annotation callout ── */
+.annotation { background: #FFF9E6; border: 1.5px solid #F0D060; border-radius: 10px; padding: 12px 16px; font-size: 12.5px; color: #5C4800; line-height: 1.5; max-width: 280px; }
+.annotation strong { font-weight: 600; display: block; margin-bottom: 2px; }
+.annotation-list { list-style: none; padding: 0; }
+.annotation-list li { display: flex; gap: 6px; margin-bottom: 4px; font-size: 12px; }
+.annotation-list li::before { content: '→'; color: var(--primary); flex-shrink: 0; }
+
+/* ── Screen primitives (used inside phone frames) ── */
+.s-page { height: 100%; background: var(--bg); overflow-y: auto; padding-bottom: 60px; }
+.s-wordmark { font-family: var(--font-display); font-size: 1.6rem; color: var(--ink); text-align: center; padding-top: 32px; padding-bottom: 0; opacity: 0.75; letter-spacing: 0.02em; }
+.s-heading { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; color: var(--ink); }
+.s-subheading { font-size: 0.8rem; color: var(--muted); }
+.s-btn { display: block; width: 100%; padding: 13px 16px; border-radius: 99px; border: none; font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; cursor: pointer; text-align: center; }
+.s-btn-primary { background: var(--primary); color: #fff; }
+.s-btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--ink); }
+.s-btn-sage { background: var(--sage); color: #fff; }
+.s-btn-gold { background: var(--gold); color: #fff; }
+.s-callout { border-radius: 10px; padding: 10px 12px; font-size: 0.8rem; line-height: 1.45; }
+.s-callout-gold { background: var(--gold-light); color: var(--gold-dark); }
+.s-callout-sage { background: var(--sage-light); color: var(--sage-dark); }
+.s-callout-lavender { background: var(--lavender); color: var(--lavender-dark); }
+.s-callout-ink { background: var(--surface); color: var(--ink-soft); }
+.s-chip { display: inline-flex; align-items: center; padding: 5px 12px; border-radius: 99px; border: 1.5px solid var(--border); background: var(--card); font-size: 0.75rem; font-weight: 500; color: var(--muted); }
+.s-chip-active { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+.s-tag { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 99px; background: var(--surface); font-size: 0.7rem; font-weight: 500; color: var(--muted); }
+.s-tag-sage { background: var(--sage-light); color: var(--sage-dark); }
+.s-tag-gold { background: var(--gold-light); color: var(--gold-dark); }
+.s-tag-teal { background: #D0EEEE; color: #1A5858; }
+.s-stars { color: var(--gold); font-size: 0.75rem; letter-spacing: 1px; }
+.s-divider { height: 1px; background: var(--border); margin: 0; }
+.s-input { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--card); font-family: var(--font-body); font-size: 0.85rem; color: var(--muted); outline: none; }
+.s-bottom-nav { position: absolute; bottom: 0; left: 0; right: 0; height: 56px; background: var(--card); border-top: 1px solid var(--border); display: flex; }
+.s-nav-tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 9px; font-weight: 500; color: var(--muted); }
+.s-nav-tab.active { color: var(--primary); }
+.s-nav-icon { font-size: 16px; line-height: 1; }
+
+/* ── Table styles ── */
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+th { background: var(--surface); text-align: left; padding: 10px 14px; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); border-bottom: 1.5px solid var(--border); }
+td { padding: 12px 14px; border-bottom: 1px solid var(--border); color: var(--ink-soft); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+.table-card { background: var(--card); border-radius: 12px; border: 1.5px solid var(--border); overflow: hidden; }
+
+/* ── Roadmap ── */
+.roadmap-item { display: flex; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--border); }
+.roadmap-item:last-child { border-bottom: none; }
+.roadmap-num { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; color: var(--primary); flex-shrink: 0; width: 32px; }
+.roadmap-title { font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+.roadmap-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.5; }
+.roadmap-file { font-size: 11px; font-family: monospace; background: var(--surface); padding: 2px 7px; border-radius: 4px; color: var(--muted); }
+
+@media (max-width: 700px) {
+  .cover { padding: 32px 24px; }
+  .cover h1 { font-size: 2rem; }
+  .mockup-grid { grid-template-columns: 1fr; }
+  .mockup-group.pair { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="doc">
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-wordmark">shub</div>
+  <h1>Product Design Review<br>& Implementation Status</h1>
+  <p>Series A Readiness — UX, Copy & Brand Audit</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><div class="cover-meta-label">Prepared for</div><div class="cover-meta-value">Board of Directors</div></div>
+    <div class="cover-meta-item"><div class="cover-meta-label">Date</div><div class="cover-meta-value">April 2026</div></div>
+    <div class="cover-meta-item"><div class="cover-meta-label">Platform</div><div class="cover-meta-value">shub.nz — Two-Sided Marketplace</div></div>
+    <div class="cover-meta-item"><div class="cover-meta-label">Audit scope</div><div class="cover-meta-value">UI · Copy · UX Flows · Brand Positioning</div></div>
+  </div>
+</div>
+
+<!-- EXEC SUMMARY -->
+<div class="section">
+  <div class="section-label">Executive Summary</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px;">
+    <div>
+      <h2 class="section-title">What we found</h2>
+      <p class="lead" style="margin-top:8px;">A technically sound platform with a coherent design system, correct legal/safety architecture, and well-structured database — undermined by execution gaps in conversion, trust signalling, and brand voice. None of the issues require a redesign. All require focused completion.</p>
+    </div>
+    <div>
+      <h2 class="section-title">Where we stand</h2>
+      <p class="lead" style="margin-top:8px;">Phases 1–5 are complete. Eight UX flow gaps identified in the audit have been shipped. Five P1 actions remain — the most critical being provider accept/decline (the core marketplace loop) and the post-booking confirmation screen.</p>
+    </div>
+  </div>
+  <div class="info-card">
+    <div class="info-grid">
+      <div><div class="info-item-label">Screens built</div><div class="info-item-value">29 screens + flows</div><div class="info-item-sub">Client · Provider · Auth · Flows</div></div>
+      <div><div class="info-item-label">Audit sections</div><div class="info-item-value">7 sections rated</div><div class="info-item-sub">Visual · Copy · Onboarding · Trust · Discovery · Booking · Post-booking</div></div>
+      <div><div class="info-item-label">Issues found</div><div class="info-item-value">28 issues logged</div><div class="info-item-sub">5 × P1 &nbsp;·&nbsp; 16 × P2 &nbsp;·&nbsp; 4 × P3</div></div>
+      <div><div class="info-item-label">UX fixes shipped</div><div class="info-item-value">8 fixes</div><div class="info-item-sub">Auth · Navigation · Broken links · Dual-role</div></div>
+      <div><div class="info-item-label">P1 remaining</div><div class="info-item-value">5 actions</div><div class="info-item-sub">See roadmap section below</div></div>
+      <div><div class="info-item-label">Readiness</div><div class="info-item-value"><span class="pill pill-yellow"><span class="pill-dot"></span>Pre-launch</span></div><div class="info-item-sub">Core loop not yet closeable end-to-end</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CHANGES SHIPPED -->
+<div class="section">
+  <div class="section-label">Already Shipped — 8 UX Flow Fixes</div>
+  <h2 class="section-title" style="margin-bottom:24px;">What's been fixed</h2>
+  <div class="changes-grid">
+    <div class="change-card"><div class="change-card-num">01</div><div class="change-card-title">Password reset completed</div><div class="change-card-desc">New <code>/update-password</code> screen handles the Supabase recovery token. Previously the reset flow was a dead end after the email was sent.</div></div>
+    <div class="change-card"><div class="change-card-num">02</div><div class="change-card-title">Account guest state made reachable</div><div class="change-card-desc">Removed ProtectedRoute from <code>/account</code>. Guest "Join shub" UI (Create account / Sign in) is now visible to unauthenticated users.</div></div>
+    <div class="change-card"><div class="change-card-num">03</div><div class="change-card-title">Browse-as-guest path added</div><div class="change-card-desc">"Browse without signing up" link added to the landing screen. Guests can now reach <code>/discover</code> without going through auth.</div></div>
+    <div class="change-card"><div class="change-card-num">04</div><div class="change-card-title">Login-first friction removed</div><div class="change-card-desc">"I'm looking" now routes to <code>/signup/client</code>, not <code>/login</code>. New users see signup first. Existing users use the "Already have an account?" link.</div></div>
+    <div class="change-card"><div class="change-card-num">05</div><div class="change-card-title">"Both" role added to landing</div><div class="change-card-desc">Third role card "I'm both" added. Routes through client signup then provider onboarding. Role merging fixed in ProviderOnboarding to preserve existing client role.</div></div>
+    <div class="change-card"><div class="change-card-num">06</div><div class="change-card-title">Email confirmation screen</div><div class="change-card-desc">New <code>/welcome</code> screen with "Start browsing" CTA. Previously users landed on <code>/discover</code> silently after confirming their email.</div></div>
+    <div class="change-card"><div class="change-card-num">07</div><div class="change-card-title">Three broken Account links fixed</div><div class="change-card-desc">My arrangements → <code>/bookings</code> (new screen) · Saved companions → <code>/saved</code> (new screen) · Privacy settings → <code>/privacy</code> (new screen). All three previously broken or self-linking.</div></div>
+    <div class="change-card"><div class="change-card-num">08</div><div class="change-card-title">"Become a companion" path added</div><div class="change-card-desc">Client-only users now see a "Become a companion" CTA in Account. Links to provider onboarding. Role merge logic preserves their existing client access.</div></div>
+  </div>
+</div>
+
+<!-- MOCKUPS HEADER -->
+<div class="section">
+<div class="section-label">Screen Mockups — Post-Implementation</div>
+<h2 class="section-title" style="margin-bottom:8px;">How the product looks once P1 changes are shipped</h2>
+<p class="lead" style="margin-bottom:40px;">Each mockup below reflects the proposed post-audit state. Screens marked <span class="badge-new">NEW</span> are net-new screens. Screens marked <span class="pill pill-yellow" style="font-size:11px;">REVISED</span> show key copy and UI changes.</p>
+
+<!-- MOCKUP GRID -->
+<div class="mockup-grid">
+
+<!-- ══ MOCKUP 1: LANDING AFTER ══ -->
+<div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+  <div class="mockup-label">Landing Screen <span class="pill pill-yellow" style="font-size:11px;">REVISED</span></div>
+  <div class="phone">
+    <div class="phone-inner">
+      <div class="phone-notch"></div>
+      <div class="phone-screen" style="background:var(--bg);display:flex;flex-direction:column;justify-content:flex-end;">
+        <div style="position:absolute;top:38px;left:50%;transform:translateX(-50%);font-family:var(--font-display);font-size:2rem;color:var(--ink);opacity:1;letter-spacing:0.02em;">shub</div>
+        <div style="background:var(--card);border-radius:20px 20px 0 0;padding:16px 18px 28px;box-shadow:0 -4px 32px rgba(28,20,16,0.12);">
+          <div style="width:28px;height:3px;background:var(--border);border-radius:99px;margin:0 auto 16px;"></div>
+          <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">New Zealand's most trusted companion platform</div>
+          <div style="font-family:var(--font-display);font-size:1.6rem;font-weight:600;color:var(--ink);line-height:1.15;margin-bottom:16px;">Extraordinary company, on your terms.</div>
+          <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:14px;">
+            <div style="padding:13px 15px;border-radius:10px;border:1.5px solid var(--border);background:var(--card);">
+              <div style="font-size:1rem;font-family:var(--font-display);font-weight:600;color:var(--ink);">◆ Find a companion</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Discover trusted companions across New Zealand</div>
+            </div>
+            <div style="padding:13px 15px;border-radius:10px;border:1.5px solid var(--border);background:var(--card);">
+              <div style="font-size:1rem;font-family:var(--font-display);font-weight:600;color:var(--ink);">✦ List as a companion</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Set your own rates and hours. Keep everything you earn.</div>
+            </div>
+            <div style="padding:13px 15px;border-radius:10px;border:1.5px solid var(--sage-light);background:var(--sage-light);">
+              <div style="font-size:1rem;font-family:var(--font-display);font-weight:600;color:var(--ink);">⬡ I'm both</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Book companions and list your own services</div>
+            </div>
+          </div>
+          <div style="text-align:center;font-size:0.75rem;color:var(--muted);text-decoration:underline;padding:4px 0 8px;">Browse without signing up</div>
+          <div style="font-size:0.65rem;color:var(--muted-light);text-align:center;line-height:1.4;">New Zealand only · 18+ only · Prostitution Reform Act 2003</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="annotation" style="max-width:240px;">
+    <strong>3 key copy changes</strong>
+    <ul class="annotation-list">
+      <li>New headline sells the experience, not the category</li>
+      <li>Card copy leads with action, not description</li>
+      <li>Guest browse path removes signup barrier</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══ MOCKUP 2: DISCOVER AFTER ══ -->
+<div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+  <div class="mockup-label">Discover Screen <span class="pill pill-yellow" style="font-size:11px;">REVISED</span></div>
+  <div class="phone">
+    <div class="phone-inner">
+      <div class="phone-notch"></div>
+      <div class="phone-screen" style="background:var(--bg);">
+        <div style="padding:36px 14px 10px;">
+          <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:600;color:var(--ink);margin-bottom:2px;">Good evening, Sophie.</div>
+          <div style="font-size:0.72rem;color:var(--muted);margin-bottom:12px;">New Zealand's independent companion platform</div>
+          <div style="display:flex;align-items:center;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:8px 12px;gap:8px;margin-bottom:14px;">
+            <span style="color:var(--muted);font-size:14px;">🔍</span>
+            <span style="font-size:0.8rem;color:var(--muted-light);">Search companions, suburbs, vibes…</span>
+          </div>
+          <div style="display:flex;gap:7px;margin-bottom:16px;overflow:hidden;">
+            <div class="s-chip s-chip-active">All</div>
+            <div class="s-chip">In-person</div>
+            <div class="s-chip">Online</div>
+            <div class="s-chip">Available now</div>
+          </div>
+          <!-- curated row -->
+          <div style="font-size:0.68rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;">Available this weekend</div>
+          <div style="display:flex;gap:9px;overflow:hidden;margin-bottom:16px;">
+            <!-- provider card 1 -->
+            <div style="flex-shrink:0;width:130px;background:var(--card);border-radius:12px;border:1.5px solid var(--border);overflow:hidden;">
+              <div style="height:70px;background:linear-gradient(135deg,#F5D8E0,#ECC8D0);display:flex;align-items:center;justify-content:center;position:relative;">
+                <div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.85);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.1rem;font-weight:600;color:#A8334C;">SL</div>
+                <div style="position:absolute;bottom:5px;left:6px;display:flex;gap:3px;">
+                  <div style="font-size:9px;background:var(--sage-light);color:var(--sage-dark);padding:1px 5px;border-radius:99px;">identity confirmed</div>
+                </div>
+              </div>
+              <div style="padding:7px 8px;">
+                <div style="font-family:var(--font-display);font-size:0.9rem;font-weight:600;color:var(--ink);">Sophie L.</div>
+                <div style="font-size:0.65rem;color:var(--muted);">Ponsonby · she/her</div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:5px;">
+                  <div style="font-size:0.65rem;color:var(--gold);">★★★★★ <span style="color:var(--muted)">(14)</span></div>
+                  <div style="font-size:0.65rem;font-weight:600;color:var(--primary);">$220/hr</div>
+                </div>
+              </div>
+            </div>
+            <!-- provider card 2 -->
+            <div style="flex-shrink:0;width:130px;background:var(--card);border-radius:12px;border:1.5px solid var(--border);overflow:hidden;">
+              <div style="height:70px;background:linear-gradient(135deg,#D0EEEE,#A8C8C8);display:flex;align-items:center;justify-content:center;position:relative;">
+                <div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.85);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.1rem;font-weight:600;color:#1A5858;">MR</div>
+                <div style="position:absolute;top:6px;right:6px;background:var(--sage-light);color:var(--sage-dark);font-size:9px;padding:1px 6px;border-radius:99px;font-weight:600;">New on shub</div>
+              </div>
+              <div style="padding:7px 8px;">
+                <div style="font-family:var(--font-display);font-size:0.9rem;font-weight:600;color:var(--ink);">Maya R.</div>
+                <div style="font-size:0.65rem;color:var(--muted);">Auckland CBD</div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:5px;">
+                  <div style="font-size:0.65rem;color:var(--sage);font-weight:600;">New on shub</div>
+                  <div style="font-size:0.65rem;font-weight:600;color:var(--primary);">$180/hr</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- request section -->
+          <div style="font-size:0.68rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;">Arrangement requests</div>
+          <div style="background:linear-gradient(135deg,#C8E0F5,#A8C8E8);border-radius:12px;padding:12px;display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div style="font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--ink);">🧳 Queenstown</div>
+              <div style="font-size:0.7rem;color:var(--ink-soft);">Weekend · Jun 14–16 · $800–1200</div>
+            </div>
+            <div style="font-size:0.72rem;font-weight:600;color:var(--primary);white-space:nowrap;">4 pitches</div>
+          </div>
+        </div>
+        <div class="s-bottom-nav">
+          <div class="s-nav-tab active"><div class="s-nav-icon">◇</div>Discover</div>
+          <div class="s-nav-tab"><div class="s-nav-icon">💬</div>Messages</div>
+          <div class="s-nav-tab"><div class="s-nav-icon">🧳</div>Requests</div>
+          <div class="s-nav-tab"><div class="s-nav-icon">◎</div>Account</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="annotation" style="max-width:240px;">
+    <strong>Key changes shown</strong>
+    <ul class="annotation-list">
+      <li>Initials avatars replace emoji — personal & premium</li>
+      <li>"New on shub" badge for 0-review providers</li>
+      <li>Curated section labels add editorial structure</li>
+      <li>Search bar merges Browse into Discover</li>
+    </ul>
+  </div>
+</div>
+
+</div><!-- end mockup-grid row 1 -->
+
+<div class="mockup-grid" style="margin-top:48px;">
+
+<!-- ══ MOCKUP 3: BOOKING CONFIRMATION (NEW) ══ -->
+<div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+  <div class="mockup-label">Booking Confirmation <span class="badge-new">NEW SCREEN</span></div>
+  <div class="phone">
+    <div class="phone-inner">
+      <div class="phone-notch"></div>
+      <div class="phone-screen" style="background:var(--bg);">
+        <div style="padding:36px 16px 16px;">
+          <!-- header -->
+          <div style="text-align:center;margin-bottom:20px;">
+            <div style="width:52px;height:52px;border-radius:50%;background:var(--sage-light);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 10px;">✓</div>
+            <div style="font-family:var(--font-display);font-size:1.5rem;font-weight:600;color:var(--ink);line-height:1.2;">Arrangement<br>requested</div>
+            <div style="font-size:0.78rem;color:var(--muted);margin-top:4px;">Sophie will confirm shortly</div>
+          </div>
+          <!-- provider chip -->
+          <div style="display:flex;align-items:center;gap:10px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:14px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#F5D8E0,#ECC8D0);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1rem;font-weight:600;color:#A8334C;flex-shrink:0;">SL</div>
+            <div>
+              <div style="font-weight:600;font-size:0.875rem;color:var(--ink);">Sophie L.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Ponsonby · she/her</div>
+            </div>
+          </div>
+          <!-- booking summary -->
+          <div style="background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:14px;">
+            <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);">
+              <span style="font-size:0.78rem;color:var(--muted);">Type</span><span style="font-size:0.78rem;font-weight:600;color:var(--ink);">Social arrangement</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);">
+              <span style="font-size:0.78rem;color:var(--muted);">Date</span><span style="font-size:0.78rem;font-weight:600;color:var(--ink);">Sat, 21 June 2026</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:5px 0;">
+              <span style="font-size:0.78rem;color:var(--muted);">Time</span><span style="font-size:0.78rem;font-weight:600;color:var(--ink);">7:00 PM</span>
+            </div>
+          </div>
+          <!-- what happens next -->
+          <div style="margin-bottom:14px;">
+            <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">What happens next</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div style="width:20px;height:20px;border-radius:50%;background:var(--primary);color:#fff;font-size:0.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">1</div>
+                <div style="font-size:0.78rem;color:var(--ink-soft);">Sophie reviews your request and confirms</div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div style="width:20px;height:20px;border-radius:50%;background:var(--primary);color:#fff;font-size:0.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">2</div>
+                <div style="font-size:0.78rem;color:var(--ink-soft);">You'll receive a notification when she responds</div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div style="width:20px;height:20px;border-radius:50%;background:var(--primary);color:#fff;font-size:0.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">3</div>
+                <div style="font-size:0.78rem;color:var(--ink-soft);">Message her while you wait — she can see your note</div>
+              </div>
+            </div>
+          </div>
+          <button class="s-btn s-btn-primary" style="font-size:0.85rem;">Message Sophie →</button>
+          <button class="s-btn s-btn-ghost" style="font-size:0.85rem;margin-top:8px;">View my arrangements</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="annotation" style="max-width:240px;">
+    <strong>Replaces a 3-second toast</strong>
+    <ul class="annotation-list">
+      <li>Confirms the booking was received</li>
+      <li>Sets expectations with a clear 3-step timeline</li>
+      <li>Gives the client an immediate action (message)</li>
+      <li>Prevents buyer's remorse and abandonment</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══ MOCKUP 4: PROVIDER DASHBOARD AFTER ══ -->
+<div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+  <div class="mockup-label">Provider Dashboard <span class="pill pill-yellow" style="font-size:11px;">REVISED</span></div>
+  <div class="phone">
+    <div class="phone-inner">
+      <div class="phone-notch"></div>
+      <div class="phone-screen" style="background:var(--bg);">
+        <div style="padding:36px 14px 10px;">
+          <!-- header -->
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+            <div>
+              <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:600;color:var(--ink);">Good evening, Maya.</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Your listing is live</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;background:var(--sage-light);border-radius:99px;padding:4px 10px;">
+              <div style="width:7px;height:7px;border-radius:50%;background:var(--sage);"></div>
+              <div style="font-size:0.7rem;font-weight:600;color:var(--sage-dark);">Live</div>
+            </div>
+          </div>
+          <!-- stat row -->
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:14px;">
+            <div style="background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:8px;text-align:center;">
+              <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:600;color:var(--ink);">$440</div>
+              <div style="font-size:0.62rem;color:var(--muted);">This week</div>
+            </div>
+            <div style="background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:8px;text-align:center;">
+              <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:600;color:var(--ink);">2</div>
+              <div style="font-size:0.62rem;color:var(--muted);">Upcoming</div>
+            </div>
+            <div style="background:var(--gold-light);border:1.5px solid var(--gold);border-radius:10px;padding:8px;text-align:center;">
+              <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:600;color:var(--gold-dark);">1</div>
+              <div style="font-size:0.62rem;color:var(--gold-dark);">Pending</div>
+            </div>
+          </div>
+          <!-- PENDING ENQUIRY with accept/decline -->
+          <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Pending enquiries</div>
+          <div style="background:var(--card);border:1.5px solid var(--gold);border-radius:12px;padding:12px;margin-bottom:10px;">
+            <div style="display:flex;align-items:center;gap:9px;margin-bottom:8px;">
+              <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#EAD8CC,#D4B8A8);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:0.9rem;font-weight:600;color:var(--ink-soft);">JT</div>
+              <div>
+                <div style="font-weight:600;font-size:0.82rem;color:var(--ink);">James T. requests</div>
+                <div style="font-size:0.7rem;color:var(--muted);">Social · Sat 21 Jun · 7:00 PM</div>
+              </div>
+            </div>
+            <div style="font-size:0.75rem;color:var(--ink-soft);margin-bottom:10px;line-height:1.4;font-style:italic;">"Looking forward to meeting you — dinner in the CBD, nothing too late."</div>
+            <div style="display:flex;gap:8px;">
+              <button class="s-btn s-btn-sage" style="flex:1;padding:9px;font-size:0.78rem;">Accept</button>
+              <button class="s-btn s-btn-ghost" style="flex:1;padding:9px;font-size:0.78rem;color:var(--muted);">Decline</button>
+            </div>
+          </div>
+          <!-- upcoming -->
+          <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Upcoming arrangements</div>
+          <div style="background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;">
+            <div><div style="font-size:0.82rem;font-weight:600;color:var(--ink);">Social · Thu 19 Jun</div><div style="font-size:0.7rem;color:var(--muted);">6:00 PM · $220</div></div>
+            <div class="s-tag s-tag-sage">Confirmed</div>
+          </div>
+        </div>
+        <div class="s-bottom-nav">
+          <div class="s-nav-tab active"><div class="s-nav-icon">◇</div>Dashboard</div>
+          <div class="s-nav-tab"><div class="s-nav-icon">🧳</div>Requests</div>
+          <div class="s-nav-tab"><div class="s-nav-icon">✦</div>Listing</div>
+          <div class="s-nav-tab"><div class="s-nav-icon">◎</div>Account</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="annotation" style="max-width:240px;">
+    <strong>Accept / Decline added</strong>
+    <ul class="annotation-list">
+      <li>Core marketplace loop now closeable end-to-end</li>
+      <li>Pending card highlights in gold to demand attention</li>
+      <li>Client note displayed so provider has context</li>
+    </ul>
+  </div>
+</div>
+
+</div><!-- end row 2 -->
+
+<div class="mockup-grid" style="margin-top:48px;">
+
+<!-- ══ MOCKUP 5: BOOKINGS SCREEN AFTER ══ -->
+<div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+  <div class="mockup-label">My Arrangements <span class="pill pill-yellow" style="font-size:11px;">REVISED</span></div>
+  <div class="phone">
+    <div class="phone-inner">
+      <div class="phone-notch"></div>
+      <div class="phone-screen" style="background:var(--bg);">
+        <div style="padding:36px 14px 10px;">
+          <div style="font-family:var(--font-display);font-size:1.5rem;font-weight:600;color:var(--ink);margin-bottom:16px;">My arrangements</div>
+          <!-- pending card -->
+          <div style="background:var(--card);border:1.5px solid var(--gold);border-radius:12px;padding:12px;margin-bottom:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <div style="font-weight:600;font-size:0.85rem;color:var(--ink);">Social arrangement</div>
+              <div style="font-size:0.7rem;font-weight:600;background:var(--gold-light);color:var(--gold-dark);padding:2px 9px;border-radius:99px;">Pending</div>
+            </div>
+            <div style="font-size:0.75rem;color:var(--muted);margin-bottom:8px;">Sophie L. · Sat 21 Jun · 7:00 PM</div>
+            <div style="display:flex;gap:7px;">
+              <button class="s-btn s-btn-primary" style="flex:1;padding:8px;font-size:0.75rem;">Message</button>
+              <button class="s-btn s-btn-ghost" style="flex:1;padding:8px;font-size:0.75rem;">Cancel</button>
+            </div>
+          </div>
+          <!-- confirmed card -->
+          <div style="background:var(--card);border:1.5px solid var(--sage);border-radius:12px;padding:12px;margin-bottom:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <div style="font-weight:600;font-size:0.85rem;color:var(--ink);">Intimate arrangement</div>
+              <div style="font-size:0.7rem;font-weight:600;background:var(--sage-light);color:var(--sage-dark);padding:2px 9px;border-radius:99px;">Confirmed</div>
+            </div>
+            <div style="font-size:0.75rem;color:var(--muted);margin-bottom:8px;">Maya R. · Thu 19 Jun · 6:00 PM · $360</div>
+            <div style="display:flex;gap:7px;">
+              <button class="s-btn s-btn-primary" style="flex:1;padding:8px;font-size:0.75rem;">Message</button>
+              <button class="s-btn s-btn-ghost" style="flex:1;padding:8px;font-size:0.75rem;">I'm safe ✓</button>
+            </div>
+          </div>
+          <!-- completed card -->
+          <div style="background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <div style="font-weight:600;font-size:0.85rem;color:var(--ink);">Social arrangement</div>
+              <div style="font-size:0.7rem;font-weight:600;background:var(--surface);color:var(--muted);padding:2px 9px;border-radius:99px;">Completed</div>
+            </div>
+            <div style="font-size:0.75rem;color:var(--muted);margin-bottom:8px;">Sophie L. · Sat 7 Jun · $220</div>
+            <div style="display:flex;gap:7px;">
+              <button class="s-btn s-btn-primary" style="flex:1;padding:8px;font-size:0.75rem;">Leave a review</button>
+              <button class="s-btn s-btn-ghost" style="flex:1;padding:8px;font-size:0.75rem;">Rebook</button>
+            </div>
+          </div>
+        </div>
+        <div class="s-bottom-nav">
+          <div class="s-nav-tab"><div class="s-nav-icon">◇</div>Discover</div>
+          <div class="s-nav-tab"><div class="s-nav-icon">💬</div>Messages</div>
+          <div class="s-nav-tab"><div class="s-nav-icon">🧳</div>Requests</div>
+          <div class="s-nav-tab active"><div class="s-nav-icon">◎</div>Account</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="annotation" style="max-width:240px;">
+    <strong>Status-aware actions</strong>
+    <ul class="annotation-list">
+      <li>Pending → Message + Cancel</li>
+      <li>Confirmed → Message + Safety check-in</li>
+      <li>Completed → Leave a review + Rebook</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══ MOCKUP 6: REVIEW SUBMISSION ══ -->
+<div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+  <div class="mockup-label">Review Submission Sheet <span class="badge-new">NEW</span></div>
+  <div class="phone">
+    <div class="phone-inner">
+      <div class="phone-notch"></div>
+      <div class="phone-screen" style="background:var(--bg);">
+        <!-- blurred background (bookings screen) -->
+        <div style="padding:36px 14px 10px;filter:blur(2px);opacity:0.4;">
+          <div style="font-family:var(--font-display);font-size:1.5rem;font-weight:600;color:var(--ink);margin-bottom:16px;">My arrangements</div>
+          <div style="background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px;height:80px;"></div>
+          <div style="background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:12px;height:80px;"></div>
+        </div>
+        <!-- sheet overlay -->
+        <div style="position:absolute;bottom:0;left:0;right:0;background:var(--card);border-radius:20px 20px 0 0;padding:16px 18px 28px;box-shadow:0 -4px 32px rgba(28,20,16,0.18);">
+          <div style="width:28px;height:3px;background:var(--border);border-radius:99px;margin:0 auto 16px;"></div>
+          <!-- provider row -->
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+            <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#F5D8E0,#ECC8D0);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1rem;font-weight:600;color:#A8334C;">SL</div>
+            <div>
+              <div style="font-weight:600;font-size:0.9rem;color:var(--ink);">Leave a review for Sophie</div>
+              <div style="font-size:0.72rem;color:var(--muted);">Social · 7 June 2026</div>
+            </div>
+          </div>
+          <!-- star rating -->
+          <div style="text-align:center;margin-bottom:16px;">
+            <div style="font-size:1.8rem;letter-spacing:6px;color:var(--gold);">★★★★★</div>
+            <div style="font-size:0.72rem;color:var(--muted);margin-top:4px;">Tap to rate</div>
+          </div>
+          <!-- text area -->
+          <textarea style="width:100%;height:72px;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);font-family:var(--font-body);font-size:0.82rem;color:var(--muted);resize:none;outline:none;" placeholder="Tell other clients what made this arrangement special… (optional)"></textarea>
+          <div style="font-size:0.7rem;color:var(--muted-light);text-align:right;margin-bottom:12px;margin-top:3px;">Optional</div>
+          <button class="s-btn s-btn-primary" style="font-size:0.85rem;">Submit review</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="annotation" style="max-width:240px;">
+    <strong>Unlocks the trust loop</strong>
+    <ul class="annotation-list">
+      <li>DB trigger + edge function already exist</li>
+      <li>Provider rating updates automatically on submit</li>
+      <li>One tap from completed booking card</li>
+    </ul>
+  </div>
+</div>
+
+</div><!-- end row 3 -->
+
+<!-- ── ROW 4: Mockup 7 + Mockup 8 ──────────────────────────────── -->
+<div class="mockup-row">
+
+  <!-- Mockup 7: Provider Card Before/After -->
+  <div class="mockup-wrap">
+    <div class="mockup-label new">7 · Provider Card — Avatar upgrade</div>
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen" style="padding:0;overflow:hidden;">
+        <!-- status bar -->
+        <div style="background:var(--bg);padding:8px 16px 0;display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:0.65rem;font-weight:600;color:var(--ink);">9:41</span>
+          <span style="font-size:0.65rem;color:var(--ink);">●●●</span>
+        </div>
+        <!-- page heading -->
+        <div style="padding:6px 16px 10px;">
+          <div style="font-family:var(--font-display);font-size:1.4rem;font-weight:600;color:var(--ink);">Browse</div>
+        </div>
+        <!-- before/after label bar -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 12px 10px;">
+          <div style="text-align:center;font-size:0.65rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;padding-bottom:4px;border-bottom:2px solid var(--border);">Before</div>
+          <div style="text-align:center;font-size:0.65rem;font-weight:600;color:var(--primary);text-transform:uppercase;letter-spacing:0.06em;padding-bottom:4px;border-bottom:2px solid var(--primary);">After</div>
+        </div>
+        <!-- card comparison -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 12px 16px;">
+          <!-- BEFORE card -->
+          <div style="background:var(--card);border-radius:14px;border:1.5px solid var(--border);overflow:hidden;">
+            <div style="height:100px;background:#EAD8CC;display:flex;align-items:center;justify-content:center;font-size:2.5rem;">🙂</div>
+            <div style="padding:8px;">
+              <div style="font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--ink);">Sophie L.</div>
+              <div style="font-size:0.7rem;color:var(--muted);margin-bottom:6px;">Auckland · Social</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                <span style="background:#F5F0EC;border-radius:99px;padding:2px 7px;font-size:0.6rem;color:var(--muted);">warm</span>
+                <span style="background:#F5F0EC;border-radius:99px;padding:2px 7px;font-size:0.6rem;color:var(--muted);">cultural</span>
+              </div>
+            </div>
+          </div>
+          <!-- AFTER card -->
+          <div style="background:var(--card);border-radius:14px;border:1.5px solid var(--border);overflow:hidden;">
+            <div style="height:100px;background:linear-gradient(135deg,#FADEE5,#F5B8C8);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:2rem;font-weight:600;color:#A8334C;position:relative;">
+              SL
+              <!-- new badge -->
+              <div style="position:absolute;top:8px;left:8px;background:var(--gold);color:#fff;font-size:0.55rem;font-weight:600;border-radius:99px;padding:2px 6px;font-family:var(--font-body);">New</div>
+              <!-- heart -->
+              <div style="position:absolute;top:6px;right:8px;font-size:0.9rem;color:var(--primary);">♥</div>
+            </div>
+            <div style="padding:8px;">
+              <div style="font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--ink);">Sophie L.</div>
+              <div style="font-size:0.7rem;color:var(--muted);margin-bottom:6px;">Auckland · Social</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                <span style="background:#F5F0EC;border-radius:99px;padding:2px 7px;font-size:0.6rem;color:var(--muted);">warm</span>
+                <span style="background:#F5F0EC;border-radius:99px;padding:2px 7px;font-size:0.6rem;color:var(--muted);">cultural</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- second comparison row -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 12px 16px;">
+          <!-- BEFORE card 2 -->
+          <div style="background:var(--card);border-radius:14px;border:1.5px solid var(--border);overflow:hidden;opacity:0.7;">
+            <div style="height:80px;background:#EAD8CC;display:flex;align-items:center;justify-content:center;font-size:2rem;">😊</div>
+            <div style="padding:6px 8px;">
+              <div style="font-family:var(--font-display);font-size:0.9rem;font-weight:600;color:var(--ink);">James T.</div>
+              <div style="font-size:0.65rem;color:var(--muted);">Wellington</div>
+            </div>
+          </div>
+          <!-- AFTER card 2 -->
+          <div style="background:var(--card);border-radius:14px;border:1.5px solid var(--border);overflow:hidden;">
+            <div style="height:80px;background:linear-gradient(135deg,#D8EAE4,#B8D8D0);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.6rem;font-weight:600;color:#5A8070;">
+              JT
+            </div>
+            <div style="padding:6px 8px;">
+              <div style="font-family:var(--font-display);font-size:0.9rem;font-weight:600;color:var(--ink);">James T.</div>
+              <div style="font-size:0.65rem;color:var(--muted);">Wellington</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+    <div class="annotation" style="max-width:220px;">
+      <strong>Initials avatar system</strong>
+      <ul class="annotation-list">
+        <li>Two-letter monogram on gradient background</li>
+        <li>Gradient seeded from provider's listing colours</li>
+        <li>"New" badge for 0-review providers</li>
+        <li>Consistent premium look without photo upload</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Mockup 8: Provider Onboarding Step 7 — Celebratory Done State -->
+  <div class="mockup-wrap">
+    <div class="mockup-label new">8 · Onboarding Done — Welcome state</div>
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen" style="padding:0;overflow:hidden;display:flex;flex-direction:column;">
+        <!-- status bar -->
+        <div style="background:var(--bg);padding:8px 16px 0;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
+          <span style="font-size:0.65rem;font-weight:600;color:var(--ink);">9:41</span>
+          <span style="font-size:0.65rem;color:var(--ink);">●●●</span>
+        </div>
+        <!-- hero section -->
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:28px 20px 12px;text-align:center;overflow-y:auto;">
+          <!-- wordmark -->
+          <div style="font-family:var(--font-display);font-size:1.4rem;color:var(--ink);margin-bottom:20px;letter-spacing:0.02em;">shub</div>
+          <!-- confetti-style dots -->
+          <div style="display:flex;gap:6px;margin-bottom:16px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--primary);"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--gold);"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--sage);"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--primary);opacity:0.5;"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--gold);opacity:0.5;"></div>
+          </div>
+          <!-- headline -->
+          <div style="font-family:var(--font-display);font-size:1.6rem;font-weight:600;color:var(--ink);line-height:1.2;margin-bottom:8px;">Welcome to<br>the network.</div>
+          <!-- sub -->
+          <div style="font-size:0.78rem;color:var(--muted);line-height:1.5;max-width:200px;margin-bottom:24px;">Your listing is under review. We'll email you within 24 hours.</div>
+
+          <!-- 3 action cards -->
+          <div style="width:100%;display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+            <!-- Card 1 -->
+            <div style="background:var(--card);border-radius:12px;border:1.5px solid var(--border);padding:12px;display:flex;align-items:center;gap:10px;text-align:left;">
+              <div style="width:34px;height:34px;border-radius:10px;background:#FAF0F3;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">📅</div>
+              <div style="flex:1;">
+                <div style="font-size:0.82rem;font-weight:600;color:var(--ink);">Set availability</div>
+                <div style="font-size:0.68rem;color:var(--muted);">Choose your days and hours</div>
+              </div>
+              <span style="color:var(--muted);font-size:1rem;">›</span>
+            </div>
+            <!-- Card 2 -->
+            <div style="background:var(--card);border-radius:12px;border:1.5px solid var(--border);padding:12px;display:flex;align-items:center;gap:10px;text-align:left;">
+              <div style="width:34px;height:34px;border-radius:10px;background:#FDF6E3;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">✦</div>
+              <div style="flex:1;">
+                <div style="font-size:0.82rem;font-weight:600;color:var(--ink);">Add services</div>
+                <div style="font-size:0.68rem;color:var(--muted);">Subscriptions, content, extras</div>
+              </div>
+              <span style="color:var(--muted);font-size:1rem;">›</span>
+            </div>
+            <!-- Card 3 -->
+            <div style="background:var(--card);border-radius:12px;border:1.5px solid var(--border);padding:12px;display:flex;align-items:center;gap:10px;text-align:left;">
+              <div style="width:34px;height:34px;border-radius:10px;background:#EFF5F3;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">🔍</div>
+              <div style="flex:1;">
+                <div style="font-size:0.82rem;font-weight:600;color:var(--ink);">Explore as client</div>
+                <div style="font-size:0.68rem;color:var(--muted);">See shub from the other side</div>
+              </div>
+              <span style="color:var(--muted);font-size:1rem;">›</span>
+            </div>
+          </div>
+
+          <!-- primary CTA -->
+          <button class="s-btn s-btn-primary" style="font-size:0.85rem;width:100%;">Go to my dashboard</button>
+        </div>
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+    <div class="annotation" style="max-width:220px;">
+      <strong>Replaces the blank redirect</strong>
+      <ul class="annotation-list">
+        <li>Sets expectation: "under review, 24h"</li>
+        <li>3 cards drive immediate activation</li>
+        <li>Existing client can switch role seamlessly</li>
+        <li>Step 7 of ProviderOnboarding.tsx</li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- end row 4 -->
+
+</div><!-- end mockup-section -->
+
+<!-- ════════════════════════════════════════════════════════════
+     P1 ROADMAP
+     ════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-eyebrow">What's next</div>
+  <h2 class="section-title">Remaining P1 actions</h2>
+  <p class="section-sub">These five items are the next build sprint before public launch. Each is scoped, with the affected file and estimated complexity noted.</p>
+
+  <div class="stats-grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;">
+
+    <div class="stat-card" style="align-items:flex-start;text-align:left;padding:20px 24px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <div style="width:28px;height:28px;border-radius:8px;background:#FAF0F3;display:flex;align-items:center;justify-content:center;font-size:0.9rem;">🔴</div>
+        <span style="font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--primary);">P1 — Critical</span>
+      </div>
+      <div style="font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:4px;">Booking confirmation screen</div>
+      <div style="font-size:0.78rem;color:var(--muted);line-height:1.5;margin-bottom:10px;">After payment/request, show a confirmation screen instead of a toast. Include provider chip, booking summary, "What happens next" timeline, and Message CTA.</div>
+      <code style="font-size:0.7rem;background:#F5F0EC;padding:3px 8px;border-radius:5px;color:var(--ink);">src/flows/Book.tsx</code>
+    </div>
+
+    <div class="stat-card" style="align-items:flex-start;text-align:left;padding:20px 24px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <div style="width:28px;height:28px;border-radius:8px;background:#FAF0F3;display:flex;align-items:center;justify-content:center;font-size:0.9rem;">🔴</div>
+        <span style="font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--primary);">P1 — Critical</span>
+      </div>
+      <div style="font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:4px;">Provider accept / decline UI</div>
+      <div style="font-size:0.78rem;color:var(--muted);line-height:1.5;margin-bottom:10px;">Dashboard pending cards need Accept and Decline action buttons wired to a Supabase booking status update. Without this, the marketplace loop never closes.</div>
+      <code style="font-size:0.7rem;background:#F5F0EC;padding:3px 8px;border-radius:5px;color:var(--ink);">src/screens/provider/Dashboard.tsx</code>
+    </div>
+
+    <div class="stat-card" style="align-items:flex-start;text-align:left;padding:20px 24px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <div style="width:28px;height:28px;border-radius:8px;background:#FDF8ED;display:flex;align-items:center;justify-content:center;font-size:0.9rem;">🟡</div>
+        <span style="font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--gold);">P1 — High</span>
+      </div>
+      <div style="font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:4px;">Review submission flow</div>
+      <div style="font-size:0.78rem;color:var(--muted);line-height:1.5;margin-bottom:10px;">Add "Leave a review" button on completed booking cards. Opens a bottom sheet with 5-star tap-to-rate and optional text. DB trigger already updates provider rating on insert.</div>
+      <code style="font-size:0.7rem;background:#F5F0EC;padding:3px 8px;border-radius:5px;color:var(--ink);">src/screens/client/Bookings.tsx</code>
+    </div>
+
+    <div class="stat-card" style="align-items:flex-start;text-align:left;padding:20px 24px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <div style="width:28px;height:28px;border-radius:8px;background:#FDF8ED;display:flex;align-items:center;justify-content:center;font-size:0.9rem;">🟡</div>
+        <span style="font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--gold);">P1 — High</span>
+      </div>
+      <div style="font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:4px;">Initials avatar system</div>
+      <div style="font-size:0.78rem;color:var(--muted);line-height:1.5;margin-bottom:10px;">Replace emoji placeholder in ProviderCard with a two-letter monogram rendered on a gradient derived from the listing's bg_from/bg_to colours. Eliminates the "toy app" perception immediately.</div>
+      <code style="font-size:0.7rem;background:#F5F0EC;padding:3px 8px;border-radius:5px;color:var(--ink);">src/components/cards/ProviderCard.tsx</code>
+    </div>
+
+    <div class="stat-card" style="align-items:flex-start;text-align:left;padding:20px 24px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <div style="width:28px;height:28px;border-radius:8px;background:#FDF8ED;display:flex;align-items:center;justify-content:center;font-size:0.9rem;">🟡</div>
+        <span style="font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--gold);">P1 — High</span>
+      </div>
+      <div style="font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:4px;">Cold-start / empty Discover</div>
+      <div style="font-size:0.78rem;color:var(--muted);line-height:1.5;margin-bottom:10px;">When provider count is below threshold, replace empty grid with an email-capture waitlist state: "We're launching soon in [city]. Be first to know." Prevents first-visit bounce.</div>
+      <code style="font-size:0.7rem;background:#F5F0EC;padding:3px 8px;border-radius:5px;color:var(--ink);">src/screens/client/Discover.tsx</code>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     KPIs / SUCCESS METRICS
+     ════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-eyebrow">Metrics</div>
+  <h2 class="section-title">How we'll know it's working</h2>
+  <p class="section-sub">These KPIs map directly to the UX changes shipped. Each has a baseline assumption and a 90-day target.</p>
+
+  <div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:0.85rem;font-family:var(--font-body);">
+      <thead>
+        <tr style="border-bottom:2px solid var(--border);">
+          <th style="text-align:left;padding:10px 12px;color:var(--muted);font-weight:600;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;">Metric</th>
+          <th style="text-align:left;padding:10px 12px;color:var(--muted);font-weight:600;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;">Measures</th>
+          <th style="text-align:center;padding:10px 12px;color:var(--muted);font-weight:600;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;">Baseline</th>
+          <th style="text-align:center;padding:10px 12px;color:var(--muted);font-weight:600;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;">90-day target</th>
+          <th style="text-align:left;padding:10px 12px;color:var(--muted);font-weight:600;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;">Linked fix</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px;font-weight:600;color:var(--ink);">Guest → signup rate</td>
+          <td style="padding:12px;color:var(--muted);">Browse session converts to account creation</td>
+          <td style="padding:12px;text-align:center;color:var(--muted);">—</td>
+          <td style="padding:12px;text-align:center;font-weight:600;color:var(--sage);">&gt; 15%</td>
+          <td style="padding:12px;color:var(--muted);">Browse without signing up link; guest state in Discover</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);background:#FAF9F8;">
+          <td style="padding:12px;font-weight:600;color:var(--ink);">Provider onboarding completion</td>
+          <td style="padding:12px;color:var(--muted);">% of started onboardings that reach Step 7</td>
+          <td style="padding:12px;text-align:center;color:var(--muted);">—</td>
+          <td style="padding:12px;text-align:center;font-weight:600;color:var(--sage);">&gt; 60%</td>
+          <td style="padding:12px;color:var(--muted);">Celebratory done state; action cards on Step 7</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px;font-weight:600;color:var(--ink);">Booking loop close rate</td>
+          <td style="padding:12px;color:var(--muted);">Pending bookings that reach confirmed status</td>
+          <td style="padding:12px;text-align:center;color:var(--muted);">—</td>
+          <td style="padding:12px;text-align:center;font-weight:600;color:var(--sage);">&gt; 70%</td>
+          <td style="padding:12px;color:var(--muted);">Provider Accept/Decline UI on Dashboard</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);background:#FAF9F8;">
+          <td style="padding:12px;font-weight:600;color:var(--ink);">Post-booking message rate</td>
+          <td style="padding:12px;color:var(--muted);">Clients who message provider after confirmation</td>
+          <td style="padding:12px;text-align:center;color:var(--muted);">—</td>
+          <td style="padding:12px;text-align:center;font-weight:600;color:var(--sage);">&gt; 80%</td>
+          <td style="padding:12px;color:var(--muted);">Booking confirmation screen with Message CTA</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px;font-weight:600;color:var(--ink);">Review submission rate</td>
+          <td style="padding:12px;color:var(--muted);">Completed bookings that receive a review</td>
+          <td style="padding:12px;text-align:center;color:var(--muted);">—</td>
+          <td style="padding:12px;text-align:center;font-weight:600;color:var(--sage);">&gt; 40%</td>
+          <td style="padding:12px;color:var(--muted);">Review sheet from Bookings completed card</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);background:#FAF9F8;">
+          <td style="padding:12px;font-weight:600;color:var(--ink);">D7 retention (clients)</td>
+          <td style="padding:12px;color:var(--muted);">Clients who return within 7 days of first session</td>
+          <td style="padding:12px;text-align:center;color:var(--muted);">—</td>
+          <td style="padding:12px;text-align:center;font-weight:600;color:var(--sage);">&gt; 30%</td>
+          <td style="padding:12px;color:var(--muted);">Saved companions; My requests; Messages inbox</td>
+        </tr>
+        <tr>
+          <td style="padding:12px;font-weight:600;color:var(--ink);">Password reset success</td>
+          <td style="padding:12px;color:var(--muted);">Reset link clicks that complete password update</td>
+          <td style="padding:12px;text-align:center;color:var(--muted);">—</td>
+          <td style="padding:12px;text-align:center;font-weight:600;color:var(--sage);">&gt; 90%</td>
+          <td style="padding:12px;color:var(--muted);">UpdatePassword screen (was broken — now fixed)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     CLOSING
+     ════════════════════════════════════════════════════════════ -->
+<section class="section" style="text-align:center;padding-bottom:60px;">
+  <div style="max-width:600px;margin:0 auto;">
+    <div style="font-family:var(--font-display);font-size:3rem;color:var(--ink);margin-bottom:12px;letter-spacing:0.02em;">shub</div>
+    <p style="font-family:var(--font-display);font-size:1.3rem;color:var(--muted);font-style:italic;margin-bottom:24px;">"Extraordinary company, on your terms."</p>
+    <div style="width:48px;height:2px;background:var(--primary);margin:0 auto 24px;"></div>
+    <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;">
+      Prepared for board review · April 2026<br>
+      Codebase: <code style="background:#F5F0EC;padding:2px 6px;border-radius:4px;font-size:0.8rem;">mturnernz/shub2026</code> · Branch: <code style="background:#F5F0EC;padding:2px 6px;border-radius:4px;font-size:0.8rem;">claude/review-shub-task-laraj</code>
+    </p>
+  </div>
+</section>
+
+</div><!-- end .doc -->
+</body>
+</html>
