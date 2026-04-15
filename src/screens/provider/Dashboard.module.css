@@ -19,6 +19,14 @@
 .confirmedBadge { font-size: 0.75rem; font-weight: 600; padding: 3px 10px; border-radius: var(--radius-pill); background: var(--sage-light); color: var(--sage-dark); }
 .pendingBadge { font-size: 0.75rem; font-weight: 600; padding: 3px 10px; border-radius: var(--radius-pill); background: var(--gold-light); color: var(--gold-dark); }
 
+.pendingCard { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.pendingInfo { flex: 1; min-width: 0; }
+.pendingActions { display: flex; gap: 8px; flex-shrink: 0; }
+.btnAccept { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 600; padding: 6px 14px; border-radius: var(--radius-pill); border: none; background: var(--sage); color: #fff; cursor: pointer; transition: opacity var(--transition); }
+.btnAccept:hover { opacity: 0.85; }
+.btnDecline { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 600; padding: 6px 14px; border-radius: var(--radius-pill); border: 1.5px solid var(--border); background: var(--card); color: var(--muted); cursor: pointer; transition: all var(--transition); }
+.btnDecline:hover { border-color: var(--primary); color: var(--primary); }
+
 .quickActions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .quickAction { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 8px; background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius-md); font-family: var(--font-body); font-size: 0.75rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: all var(--transition); text-align: center; }
 .quickAction:hover { border-color: var(--primary); color: var(--primary); }

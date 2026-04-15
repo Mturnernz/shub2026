@@ -30,11 +30,29 @@
   justify-content: center;
 }
 
-.emoji {
-  font-size: 2.5rem;
+.monogram {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 600;
   line-height: 1;
+  color: rgba(28, 20, 16, 0.55);
   pointer-events: none;
   user-select: none;
+  letter-spacing: 0.02em;
+}
+
+.newBadge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: var(--gold);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.04em;
 }
 
 .heart {

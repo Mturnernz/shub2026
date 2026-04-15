@@ -28,3 +28,19 @@
 .summaryPrice { color: var(--primary); font-weight: 600; }
 
 .error { font-size: 0.875rem; color: var(--primary); font-weight: 500; }
+
+/* Confirmation screen */
+.confirmedWrap { padding: 32px 20px 24px; display: flex; flex-direction: column; gap: 20px; align-items: stretch; }
+.confirmedTick { width: 52px; height: 52px; border-radius: 50%; background: var(--sage-light); color: var(--sage-dark); font-size: 1.4rem; display: flex; align-items: center; justify-content: center; font-weight: 700; align-self: center; }
+.confirmedHeading { font-family: var(--font-display); font-size: 2rem; font-weight: 600; color: var(--ink); text-align: center; }
+.confirmedSub { font-size: 0.9375rem; color: var(--muted); text-align: center; line-height: 1.5; }
+.confirmedChip { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: 12px 16px; }
+.confirmedAvatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 1rem; font-weight: 600; color: rgba(28,20,16,0.55); flex-shrink: 0; }
+.confirmedChipName { font-weight: 600; font-size: 0.9375rem; color: var(--ink); }
+.confirmedChipMeta { font-size: 0.8125rem; color: var(--muted); margin-top: 2px; text-transform: capitalize; }
+.timeline { display: flex; flex-direction: column; }
+.timelineStep { display: flex; gap: 12px; align-items: flex-start; }
+.timelineStep strong { font-size: 0.875rem; font-weight: 600; color: var(--ink); }
+.timelineStep p { font-size: 0.8125rem; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+.timelineDot { width: 10px; height: 10px; border-radius: 50%; background: var(--primary); flex-shrink: 0; margin-top: 4px; }
+.timelineLine { width: 1.5px; height: 20px; background: var(--border); margin-left: 4px; }

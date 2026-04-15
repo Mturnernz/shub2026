@@ -5,6 +5,7 @@ import { useProvider } from '../lib/queries'
 import { supabase } from '../lib/supabase'
 import { useAuthStore } from '../store/auth.store'
 import { useUIStore } from '../store/ui.store'
+import type { Booking } from '../types'
 import styles from './Book.module.css'
 
 const TYPES = [
@@ -31,6 +32,7 @@ export default function Book() {
   const [note, setNote] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [confirmed, setConfirmed] = useState<Booking | null>(null)
 
   const profile = listing?.profiles
   const availableTypes = TYPES.filter((t) => {
@@ -55,7 +57,7 @@ export default function Book() {
       return
     }
 
-    const { error: insertErr } = await supabase.from('bookings').insert({
+    const { data: inserted, error: insertErr } = await supabase.from('bookings').insert({
       client_id: session.user.id,
       provider_id: providerId,
       type,
@@ -64,11 +66,62 @@ export default function Book() {
       note: note || null,
       price_agreed: price ?? null,
       status: 'pending',
-    })
+    }).select().single()
     setLoading(false)
     if (insertErr) { setError('Something went wrong. Please try again.'); return }
-    showToast('Arrangement requested — you\'ll hear back soon.')
-    navigate('/discover')
+    setConfirmed(inserted as Booking)
+  }
+
+  if (confirmed) {
+    const initials = (profile?.display_name ?? '')
+      .split(' ').filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join('')
+    return (
+      <div className={styles.page}>
+        <div className={styles.header}>
+          <div />
+          <p className={styles.wordmark}>shub</p>
+          <div />
+        </div>
+        <div className={styles.confirmedWrap}>
+          <div className={styles.confirmedTick}>✓</div>
+          <h1 className={styles.confirmedHeading}>Request sent!</h1>
+          <p className={styles.confirmedSub}>
+            {profile?.display_name} will confirm your arrangement soon.
+          </p>
+          <div className={styles.confirmedChip}>
+            <div className={styles.confirmedAvatar}
+              style={{ background: `linear-gradient(135deg, ${listing?.bg_from ?? '#EAD8CC'}, ${listing?.bg_to ?? '#D4C0B0'})` }}>
+              {initials}
+            </div>
+            <div>
+              <p className={styles.confirmedChipName}>{profile?.display_name}</p>
+              <p className={styles.confirmedChipMeta}>
+                {confirmed.type} · {new Date(confirmed.booking_date).toLocaleDateString('en-NZ', { weekday: 'short', day: 'numeric', month: 'short' })} · {confirmed.start_time.slice(0, 5)}
+                {confirmed.price_agreed ? ` · $${confirmed.price_agreed} / hr` : ''}
+              </p>
+            </div>
+          </div>
+          <div className={styles.timeline}>
+            <div className={styles.timelineStep}>
+              <div className={styles.timelineDot} />
+              <div><strong>Request received</strong><p>Your request is with {profile?.display_name}.</p></div>
+            </div>
+            <div className={styles.timelineLine} />
+            <div className={styles.timelineStep}>
+              <div className={styles.timelineDot} />
+              <div><strong>Companion confirms</strong><p>They'll accept or suggest a new time.</p></div>
+            </div>
+            <div className={styles.timelineLine} />
+            <div className={styles.timelineStep}>
+              <div className={styles.timelineDot} />
+              <div><strong>You're all set</strong><p>Payment is arranged directly with your companion.</p></div>
+            </div>
+          </div>
+          <Btn full onClick={() => navigate('/messages')}>Message them →</Btn>
+          <Btn v="ghost" full onClick={() => navigate('/bookings')}>View my arrangements</Btn>
+        </div>
+      </div>
+    )
   }
 
   return (

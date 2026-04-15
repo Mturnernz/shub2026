@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useAuthStore } from '../../store/auth.store'
+import { useUIStore } from '../../store/ui.store'
 import type { Booking } from '../../types'
 import styles from './Bookings.module.css'
 
@@ -26,8 +28,14 @@ const STATUS_LABEL: Record<Booking['status'], string> = {
 
 export default function Bookings() {
   const { session } = useAuthStore()
+  const { showToast } = useUIStore()
+  const navigate = useNavigate()
   const [bookings, setBookings] = useState<Booking[]>([])
   const [loading, setLoading] = useState(true)
+  const [reviewBookingId, setReviewBookingId] = useState<string | null>(null)
+  const [stars, setStars] = useState(0)
+  const [reviewText, setReviewText] = useState('')
+  const [submittingReview, setSubmittingReview] = useState(false)
 
   useEffect(() => {
     if (!session?.user) return
@@ -41,6 +49,25 @@ export default function Bookings() {
         setLoading(false)
       })
   }, [session])
+
+  async function submitReview() {
+    if (!reviewBookingId || stars === 0 || !session?.user) return
+    const booking = bookings.find((b) => b.id === reviewBookingId)
+    if (!booking) return
+    setSubmittingReview(true)
+    await supabase.from('reviews').insert({
+      booking_id: reviewBookingId,
+      client_id: session.user.id,
+      provider_id: booking.provider_id,
+      rating: stars,
+      body: reviewText.trim() || null,
+    })
+    setSubmittingReview(false)
+    setReviewBookingId(null)
+    setStars(0)
+    setReviewText('')
+    showToast('Review submitted — thank you.')
+  }
 
   return (
     <div className={styles.page}>
@@ -77,10 +104,55 @@ export default function Bookings() {
               {b.price_agreed && (
                 <p className={styles.price}>${b.price_agreed} NZD</p>
               )}
+              {b.status === 'pending' && (
+                <div className={styles.actions}>
+                  <button className={styles.actionBtn} onClick={() => navigate('/messages')}>Message</button>
+                </div>
+              )}
+              {b.status === 'confirmed' && (
+                <div className={styles.actions}>
+                  <button className={styles.actionBtn} onClick={() => navigate('/messages')}>Message</button>
+                </div>
+              )}
+              {b.status === 'completed' && (
+                <div className={styles.actions}>
+                  <button className={styles.actionBtnPrimary} onClick={() => { setReviewBookingId(b.id); setStars(0); setReviewText('') }}>Leave a review</button>
+                </div>
+              )}
             </div>
           ))
         )}
       </div>
+
+      {/* Review sheet */}
+      {reviewBookingId && (
+        <div className={styles.sheetOverlay} onClick={() => setReviewBookingId(null)}>
+          <div className={styles.sheet} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.sheetHandle} />
+            <h2 className={styles.sheetTitle}>Leave a review</h2>
+            <div className={styles.starRow}>
+              {[1, 2, 3, 4, 5].map((n) => (
+                <button key={n} className={styles.star} onClick={() => setStars(n)}
+                  style={{ color: n <= stars ? 'var(--gold)' : 'var(--border)' }}>★</button>
+              ))}
+            </div>
+            <textarea
+              className={styles.reviewTextarea}
+              placeholder="Tell others what made this arrangement special… (optional)"
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+              rows={4}
+            />
+            <button
+              className={styles.submitBtn}
+              disabled={stars === 0 || submittingReview}
+              onClick={submitReview}
+            >
+              {submittingReview ? 'Submitting…' : 'Submit review'}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
