@@ -20,7 +20,6 @@ import ProviderOnboarding from './onboarding/ProviderOnboarding'
 
 // Client screens
 import Discover from './screens/client/Discover'
-import Browse from './screens/client/Browse'
 import Requests from './screens/client/Requests'
 import MyRequests from './screens/client/MyRequests'
 import Account from './screens/client/Account'
@@ -116,7 +115,7 @@ function App() {
         <Route element={<AppShell />}>
           {/* Client — public routes (guests allowed) */}
           <Route path="/discover" element={<Discover />} />
-          <Route path="/browse" element={<Browse />} />
+          <Route path="/browse" element={<Navigate to="/discover" replace />} />
 
           {/* Client — auth required */}
           <Route path="/requests" element={

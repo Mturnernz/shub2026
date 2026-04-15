@@ -9,7 +9,7 @@ import styles from './AppShell.module.css'
 
 // Routes that get the full shell (wordmark + bottom nav)
 const SHELL_ROUTES = [
-  '/discover', '/browse', '/requests', '/my-requests',
+  '/discover', '/requests', '/my-requests',
   '/messages', '/account', '/bookings',
   '/dashboard', '/provider/requests', '/listing', '/earnings', '/verification',
 ]

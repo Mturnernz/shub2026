@@ -5,7 +5,6 @@ import styles from './BottomNav.module.css'
 
 const CLIENT_TABS = [
   { path: '/discover', label: 'Discover', icon: '◆' },
-  { path: '/browse', label: 'Browse', icon: '✦' },
   { path: '/requests', label: 'Requests', icon: '🧳' },
   { path: '/messages', label: 'Messages', icon: '💬', showBadge: true },
   { path: '/account', label: 'Account', icon: '◎' },

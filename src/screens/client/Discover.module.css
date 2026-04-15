@@ -1,11 +1,11 @@
 .page {
-  padding: 72px 0 24px;
+  padding: 72px 0 88px;
   min-height: 100dvh;
   background: var(--bg);
 }
 
 .header {
-  padding: 16px 20px 8px;
+  padding: 12px 20px 4px;
 }
 
 .greeting {
@@ -16,21 +16,68 @@
   line-height: 1.15;
 }
 
-.sub {
-  font-size: 0.875rem;
-  color: var(--muted);
-  margin-top: 2px;
+/* Search bar */
+.searchWrap {
+  padding: 10px 16px 4px;
 }
 
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 10px 16px;
+  transition: border-color var(--transition);
+}
+
+.searchBar:focus-within {
+  border-color: var(--primary);
+}
+
+.searchIcon {
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
+.searchInput {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--ink);
+}
+
+.searchInput::placeholder {
+  color: var(--muted-light);
+}
+
+.searchClear {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.75rem;
+  padding: 2px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* Filter chips */
 .filterRow {
   display: flex;
   gap: 8px;
-  padding: 12px 20px;
+  padding: 8px 16px 10px;
   overflow-x: auto;
   scrollbar-width: none;
 }
 .filterRow::-webkit-scrollbar { display: none; }
 
+/* Curated mode */
 .section {
   margin-top: 8px;
 }
@@ -67,17 +114,31 @@
   animation: pulse 1.4s ease-in-out infinite;
 }
 
+/* Search/grid mode */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 4px 16px;
+}
+
+.gridSkeleton {
+  height: 280px;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.searchEmpty {
+  padding: 16px;
+}
+
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
 }
 
-.empty {
-  padding: 0 20px;
-  font-size: 0.875rem;
-  color: var(--muted);
-}
-
+/* Waitlist */
 .waitlist { padding: 24px 20px; display: flex; flex-direction: column; gap: 12px; }
 .waitlistTick { width: 40px; height: 40px; border-radius: 50%; background: var(--sage-light); color: var(--sage-dark); font-size: 1.1rem; display: flex; align-items: center; justify-content: center; font-weight: 700; }
 .waitlistHead { font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; color: var(--ink); }
@@ -86,6 +147,7 @@
 .waitlistInput { flex: 1; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-md); background: var(--card); font-family: var(--font-body); font-size: 0.9rem; color: var(--ink); outline: none; }
 .waitlistInput:focus { border-color: var(--primary); }
 
+/* FAB */
 .fab {
   position: fixed;
   bottom: 84px;
