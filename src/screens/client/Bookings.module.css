@@ -25,7 +25,12 @@
 .actionBtn { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 600; padding: 6px 14px; border-radius: var(--radius-pill); border: 1.5px solid var(--border); background: var(--card); color: var(--ink-soft); cursor: pointer; transition: all var(--transition); }
 .actionBtn:hover { border-color: var(--ink); color: var(--ink); }
 .actionBtnPrimary { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 600; padding: 6px 14px; border-radius: var(--radius-pill); border: none; background: var(--primary); color: #fff; cursor: pointer; transition: opacity var(--transition); }
-.actionBtnPrimary:hover { opacity: 0.85; }
+.actionBtnPrimary:hover:not(:disabled) { opacity: 0.85; }
+.actionBtnPrimary:disabled { opacity: 0.5; cursor: not-allowed; }
+.actionBtnGhost { font-family: var(--font-body); font-size: 0.8125rem; font-weight: 500; padding: 6px 14px; border-radius: var(--radius-pill); border: 1.5px solid var(--border); background: none; color: var(--muted); cursor: pointer; transition: all var(--transition); }
+.actionBtnGhost:hover { border-color: var(--primary); color: var(--primary); }
+.cancelConfirm { display: flex; flex-direction: column; gap: 8px; padding-top: 4px; }
+.cancelPrompt { font-size: 0.875rem; font-weight: 600; color: var(--ink); }
 
 /* Review sheet */
 .sheetOverlay { position: fixed; inset: 0; background: rgba(28,20,16,0.45); z-index: 100; display: flex; align-items: flex-end; }

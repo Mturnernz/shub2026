@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
+import { useQueryClient } from '@tanstack/react-query'
 import { supabase } from './lib/supabase'
 import { useAuthStore } from './store/auth.store'
 import { useUIStore } from './store/ui.store'
@@ -48,6 +49,7 @@ import ContentRequest from './flows/ContentRequest'
 function App() {
   const { setSession, setProfile } = useAuthStore()
   const { toastMsg, clearToast } = useUIStore()
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -82,6 +84,21 @@ function App() {
 
     return () => listener.subscription.unsubscribe()
   }, [setSession, setProfile])
+
+  // Realtime subscription — invalidate notifications query on new row
+  useEffect(() => {
+    const channel = supabase
+      .channel('notifications-global')
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'notifications',
+      }, () => {
+        queryClient.invalidateQueries({ queryKey: ['notifications'] })
+      })
+      .subscribe()
+    return () => { supabase.removeChannel(channel) }
+  }, [queryClient])
 
   return (
     <>

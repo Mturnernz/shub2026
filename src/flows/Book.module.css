@@ -26,6 +26,8 @@
 .summaryRow:last-child { border-bottom: none; }
 .summaryRow span:first-child { color: var(--muted); }
 .summaryPrice { color: var(--primary); font-weight: 600; }
+.summaryEst { font-size: 0.8125rem; color: var(--muted); }
+.priceNote { font-size: 0.8125rem; color: var(--muted); line-height: 1.5; }
 
 .error { font-size: 0.875rem; color: var(--primary); font-weight: 500; }
 

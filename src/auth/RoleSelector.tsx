@@ -24,16 +24,10 @@ export default function RoleSelector() {
     }
   }, [session, navigate])
 
-  const choose = (role: 'client' | 'provider' | 'both') => {
-    if (role === 'both') {
-      setActiveRole('client')
-      localStorage.setItem(SEEN_KEY, 'client')
-      navigate('/signup/client?next=provider', { replace: true })
-    } else {
-      setActiveRole(role)
-      localStorage.setItem(SEEN_KEY, role)
-      navigate(role === 'provider' ? '/signup/provider' : '/signup/client', { replace: true })
-    }
+  const choose = (role: 'client' | 'provider') => {
+    setActiveRole(role)
+    localStorage.setItem(SEEN_KEY, role)
+    navigate(role === 'provider' ? '/signup/provider' : '/signup/client', { replace: true })
   }
 
   return (
@@ -45,26 +39,19 @@ export default function RoleSelector() {
       <div className={[styles.sheet, visible ? styles.visible : ''].filter(Boolean).join(' ')}>
         <div className={styles.handle} aria-hidden="true" />
 
-        <p className={styles.eyebrow}>New Zealand's independent companion platform</p>
-        <h1 className={styles.heading}>How are you joining?</h1>
+        <h1 className={styles.heading}>Extraordinary company,<br />on your terms.</h1>
 
         <div className={styles.cards}>
           <button className={[styles.card, styles.cardClient].join(' ')} onClick={() => choose('client')}>
             <span className={styles.cardEmoji}>◆</span>
-            <span className={styles.cardTitle}>I'm looking</span>
-            <span className={styles.cardDesc}>Browse independent companions across New Zealand</span>
+            <span className={styles.cardTitle}>Find a companion</span>
+            <span className={styles.cardDesc}>Discover trusted companions across New Zealand</span>
           </button>
 
           <button className={[styles.card, styles.cardProvider].join(' ')} onClick={() => choose('provider')}>
             <span className={styles.cardEmoji}>✦</span>
-            <span className={styles.cardTitle}>I'm a companion</span>
-            <span className={styles.cardDesc}>List your services and manage your schedule</span>
-          </button>
-
-          <button className={[styles.card, styles.cardBoth].join(' ')} onClick={() => choose('both')}>
-            <span className={styles.cardEmoji}>⬡</span>
-            <span className={styles.cardTitle}>I'm both</span>
-            <span className={styles.cardDesc}>Book companions and list your own services</span>
+            <span className={styles.cardTitle}>List as a companion</span>
+            <span className={styles.cardDesc}>Set your own rates and hours. Keep everything you earn.</span>
           </button>
         </div>
 

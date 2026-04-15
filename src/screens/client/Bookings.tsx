@@ -36,6 +36,8 @@ export default function Bookings() {
   const [stars, setStars] = useState(0)
   const [reviewText, setReviewText] = useState('')
   const [submittingReview, setSubmittingReview] = useState(false)
+  const [cancelBookingId, setCancelBookingId] = useState<string | null>(null)
+  const [cancelling, setCancelling] = useState(false)
 
   useEffect(() => {
     if (!session?.user) return
@@ -49,6 +51,21 @@ export default function Bookings() {
         setLoading(false)
       })
   }, [session])
+
+  async function cancelRequest() {
+    if (!cancelBookingId) return
+    setCancelling(true)
+    const { error } = await supabase
+      .from('bookings')
+      .update({ status: 'cancelled', cancelled_by: 'client' })
+      .eq('id', cancelBookingId)
+    setCancelling(false)
+    if (!error) {
+      setBookings((prev) => prev.map((b) => b.id === cancelBookingId ? { ...b, status: 'cancelled' as const, cancelled_by: 'client' as const } : b))
+      showToast('Request cancelled.')
+    }
+    setCancelBookingId(null)
+  }
 
   async function submitReview() {
     if (!reviewBookingId || stars === 0 || !session?.user) return
@@ -105,9 +122,22 @@ export default function Bookings() {
                 <p className={styles.price}>${b.price_agreed} NZD</p>
               )}
               {b.status === 'pending' && (
-                <div className={styles.actions}>
-                  <button className={styles.actionBtn} onClick={() => navigate('/messages')}>Message</button>
-                </div>
+                cancelBookingId === b.id ? (
+                  <div className={styles.cancelConfirm}>
+                    <p className={styles.cancelPrompt}>Cancel this request?</p>
+                    <div className={styles.actions}>
+                      <button className={styles.actionBtnPrimary} onClick={cancelRequest} disabled={cancelling}>
+                        {cancelling ? 'Cancelling…' : 'Yes, cancel'}
+                      </button>
+                      <button className={styles.actionBtn} onClick={() => setCancelBookingId(null)}>Keep it</button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.actions}>
+                    <button className={styles.actionBtn} onClick={() => navigate('/messages')}>Message</button>
+                    <button className={styles.actionBtnGhost} onClick={() => setCancelBookingId(b.id)}>Cancel request</button>
+                  </div>
+                )
               )}
               {b.status === 'confirmed' && (
                 <div className={styles.actions}>

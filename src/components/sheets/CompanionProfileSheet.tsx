@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { Sheet, Btn, Tag, Callout } from '../primitives'
 import { useProvider } from '../../lib/queries'
 import { useAuthStore } from '../../store/auth.store'
+import { useUIStore } from '../../store/ui.store'
+import { supabase } from '../../lib/supabase'
 import styles from './CompanionProfileSheet.module.css'
 
 export interface CompanionProfileSheetProps {
@@ -21,8 +23,22 @@ export default function CompanionProfileSheet({
   onConnect,
 }: CompanionProfileSheetProps) {
   const [tab, setTab] = useState<Tab>('about')
+  const [reportSent, setReportSent] = useState(false)
   const { session } = useAuthStore()
+  const { showToast } = useUIStore()
   const navigate = useNavigate()
+
+  async function handleReport() {
+    if (!session?.user || !providerId || reportSent) return
+    await supabase.from('incidents').insert({
+      reporter_id: session.user.id,
+      reported_id: providerId,
+      type: 'report',
+      urgent: false,
+    })
+    setReportSent(true)
+    showToast('Report submitted. Our team will review it.')
+  }
 
   const { data: listing, isLoading } = useProvider(providerId ?? '')
 
@@ -71,7 +87,7 @@ export default function CompanionProfileSheet({
                 className={[styles.tab, tab === 'assurance' ? styles.tabActive : ''].filter(Boolean).join(' ')}
                 onClick={() => setTab('assurance')}
               >
-                Assurance
+                Trust & Safety
               </button>
             </div>
 
@@ -158,6 +174,11 @@ export default function CompanionProfileSheet({
               <Btn v="primary" full onClick={handleConnect}>
                 Connect →
               </Btn>
+              {session && (
+                <button className={styles.reportLink} onClick={handleReport} disabled={reportSent}>
+                  {reportSent ? 'Reported' : 'Report this profile'}
+                </button>
+              )}
             </div>
           </>
         )}

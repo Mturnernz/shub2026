@@ -14,10 +14,9 @@
   left: 50%;
   transform: translateX(-50%);
   font-family: var(--font-display);
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 400;
   color: var(--ink);
-  opacity: 0.65;
   letter-spacing: 0.02em;
   pointer-events: none;
 }
@@ -57,11 +56,11 @@
 
 .heading {
   font-family: var(--font-display);
-  font-size: 2rem;
+  font-size: 1.875rem;
   font-weight: 600;
   color: var(--ink);
   margin-bottom: 24px;
-  line-height: 1.1;
+  line-height: 1.15;
 }
 
 .cards {

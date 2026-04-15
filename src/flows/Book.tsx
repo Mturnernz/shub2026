@@ -186,7 +186,9 @@ export default function Book() {
             <div className={styles.summaryRow}><span>Date</span><span>{new Date(date).toLocaleDateString('en-NZ', { weekday: 'short', day: 'numeric', month: 'long' })}</span></div>
             <div className={styles.summaryRow}><span>Time</span><span>{time}</span></div>
             {price && <div className={styles.summaryRow}><span>Rate</span><span className={styles.summaryPrice}>from ${price} / hr</span></div>}
+          {price && <div className={styles.summaryRow}><span>Estimated total</span><span className={styles.summaryEst}>${price * 2}–${price * 3} for 2–3 hrs</span></div>}
           </div>
+          <p className={styles.priceNote}>Final price is agreed directly with your companion after confirmation.</p>
           <OBTextarea label="Optional note" placeholder="Anything you'd like them to know…" value={note} onChange={(e) => setNote(e.target.value)} rows={3} />
           <Callout v="gold" icon="★">
             This is a request — the companion will confirm before any arrangement is finalised.
