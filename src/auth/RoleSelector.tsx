@@ -27,7 +27,7 @@ export default function RoleSelector() {
   const choose = (role: 'client' | 'provider') => {
     setActiveRole(role)
     localStorage.setItem(SEEN_KEY, role)
-    navigate(role === 'provider' ? '/login' : '/login', { replace: true })
+    navigate(role === 'provider' ? '/signup/provider' : '/login', { replace: true })
   }
 
   return (

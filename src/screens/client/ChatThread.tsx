@@ -39,10 +39,10 @@ export default function ChatThread() {
     if (!conversationId || !profile?.id) return
     supabase
       .from('messages')
-      .update({ read_at: new Date().toISOString() })
+      .update({ read: true })
       .eq('conversation_id', conversationId)
       .neq('sender_id', profile.id)
-      .is('read_at', null)
+      .eq('read', false)
       .then(() => {})
   }, [conversationId, profile?.id, messages.length])
 

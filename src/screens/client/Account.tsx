@@ -71,7 +71,7 @@ export default function Account() {
       <div className={styles.section}>
         <p className={styles.sectionLabel}>Activity</p>
         <div className={styles.sectionCard}>
-          <LinkRow label="My arrangements" to="/bookings" icon="📅" />
+          <LinkRow label="My arrangements" to="/my-requests" icon="📅" />
           <LinkRow label="My requests" to="/my-requests" icon="🧳" />
           <LinkRow label="Saved companions" to="/discover" icon="♥" />
         </div>

@@ -47,7 +47,7 @@ export default function Book() {
 
     // Validate slot
     const { data: valid } = await supabase.functions.invoke('validate_booking_slot', {
-      body: { provider_id: providerId, date, time, type },
+      body: { provider_id: providerId, booking_date: date, start_time: time, end_time: time },
     })
     if (valid && !valid.available) {
       setError(valid.reason ?? 'That time is unavailable. Please pick another.')

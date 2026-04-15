@@ -3,6 +3,7 @@ import { supabase } from './supabase'
 import type {
   Profile,
   ProviderListing,
+  ProviderSubscription,
   Booking,
   Conversation,
   Message,
@@ -70,6 +71,24 @@ export const useProvider = (id: string) =>
     queryKey: ['provider', id],
     queryFn: () => getProvider(id),
     enabled: !!id,
+  })
+
+async function getProviderSubscriptions(providerId: string): Promise<ProviderSubscription[]> {
+  const { data, error } = await supabase
+    .from('provider_subscriptions')
+    .select('*')
+    .eq('provider_id', providerId)
+    .eq('active', true)
+    .order('sort_order', { ascending: true })
+  if (error) throw error
+  return (data as ProviderSubscription[]) ?? []
+}
+
+export const useProviderSubscriptions = (providerId: string) =>
+  useQuery({
+    queryKey: ['provider-subscriptions', providerId],
+    queryFn: () => getProviderSubscriptions(providerId),
+    enabled: !!providerId,
   })
 
 // ============================================================
@@ -149,7 +168,7 @@ async function getUnreadCount(): Promise<number> {
     .from('messages')
     .select('*', { count: 'exact', head: true })
     .neq('sender_id', user.id)
-    .is('read_at', null)
+    .eq('read', false)
   return count ?? 0
 }
 
